@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        greenish: "#4EEA96"
+        greenish: "#4EEA96",
+        grayish: "#A0A0A0",
+        whitish: "#F0F0F0"
       }
     },
   },
