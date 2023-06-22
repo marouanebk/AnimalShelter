@@ -1,22 +1,28 @@
 import { FaHeart } from "react-icons/fa";
 import test from "../assets/test.jpg";
 
-export function Card() {
+type cardProps = {
+  pictures: string[];
+  location: string;
+  type: string;
+};
+
+export function Card({ pictures, location, type }: cardProps) {
   return (
-    <div className="max-w-fit  border-4 rounded-[10px] border-black p-2 ">
+    <div className="max-w-fit  border-[3px]  border-black p-2 bg-white mx-auto sm:mx-0">
       <a href="">
         <img
-          src={test}
+          src={pictures[0]}
           alt="pic"
-          className="rounded-lg w-[183px] h-[196px] object-cover"
+          className="w-[183px] h-[196px] object-cover"
         />
       </a>
       <div className="font-bold my-2">
         <p>
-          Type: <span>Cat</span>
+          Type: <span>{type}</span>
         </p>
         <p>
-          Location: <span>Alger</span>
+          Location: <span>{location}</span>
         </p>
       </div>
       <hr className="mb-2" />

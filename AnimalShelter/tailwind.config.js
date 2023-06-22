@@ -7,9 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        greenish: "#4EEA96",
-        grayish: "#A0A0A0",
-        whitish: "#F0F0F0"
+        blueish: "#F0FCFF",
+        orange: "#FFF0E5",
+        redish: "#FDDADA",
+        lightGray: "#616161"
+      },
+      boxShadow: {
+        strong: "5px 4px 0px 0px #000;"
+      },
+      gridTemplateColumns: {
+        fill: "repeat( auto-fill, minmax(200px, auto) )"
       }
     },
   },

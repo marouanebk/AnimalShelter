@@ -6,7 +6,7 @@ export function Filter() {
   return (
     <main className="mb-10">
       <input
-        className="px-5 py-2 text-md w-full md:w-[350px] focus:outline-none bg-whitish font-bold caret-grayish "
+        className="px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  w-full md:w-[350px] focus:outline-none bg-white font-bold  caret-grayish shadow-strong"
         type="text"
         placeholder="Search By Location"
       />
@@ -21,7 +21,7 @@ export function Filter() {
               <img
                 src={cat}
                 alt="cat"
-                className="aspect-square w-[150px] border-4 rounded-md border-black "
+                className="aspect-square w-[150px] border-[3px]  border-black "
               />
               <h2 className="mt-3 text-lg">Cats</h2>
             </div>
@@ -31,7 +31,8 @@ export function Filter() {
               <img
                 src={dog}
                 alt="cat"
-                className="aspect-square w-[150px] border-4 rounded-md border-black"
+                className="aspect-square w-[150px] border-[3px]
+                 border-black"
               />
               <h2 className="mt-3 text-lg">Dogs</h2>
             </div>
@@ -41,7 +42,7 @@ export function Filter() {
               <img
                 src={other}
                 alt="other"
-                className="aspect-square w-[150px] h-auto object-cover border-4 rounded-md border-black "
+                className="aspect-square w-[150px] h-auto object-cover border-[3px]  border-black "
               />
               <h2 className="mt-3 text-lg">Other</h2>
             </div>
