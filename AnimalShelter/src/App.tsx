@@ -1,6 +1,7 @@
-import { Filter } from "./components/Filter";
 import { Navbar } from "./components/Navbar";
-import { Adds } from "./components/Adds";
+import { Route, Routes } from "react-router";
+import { Home } from "./containers/Home";
+import { Details } from "./containers/Details";
 
 function App() {
   return (
@@ -10,8 +11,10 @@ function App() {
       </nav>
       <div className="pt-8">
         <main className="container px-6 mx-auto ">
-          <Filter />
-          <Adds />
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/:id" element={<Details />} />
+          </Routes>
         </main>
       </div>
     </>

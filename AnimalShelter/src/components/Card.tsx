@@ -1,22 +1,23 @@
 import { FaHeart } from "react-icons/fa";
-import test from "../assets/test.jpg";
+import { Link } from "react-router-dom";
 
 type cardProps = {
   pictures: string[];
   location: string;
   type: string;
+  id: number;
 };
 
-export function Card({ pictures, location, type }: cardProps) {
+export function Card({ pictures, location, type, id }: cardProps) {
   return (
     <div className="max-w-fit  border-[3px]  border-black p-2 bg-white mx-auto sm:mx-0">
-      <a href="">
+      <Link to={`/${id}`}>
         <img
           src={pictures[0]}
           alt="pic"
           className="w-[183px] h-[196px] object-cover"
         />
-      </a>
+      </Link>
       <div className="font-bold my-2">
         <p>
           Type: <span>{type}</span>

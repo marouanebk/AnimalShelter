@@ -14,6 +14,7 @@ export function Adds() {
             type={ad.type}
             location={ad.location}
             pictures={ad.pictures}
+            id={ad.id}
           />
         ))}
       </div>
