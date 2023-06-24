@@ -11,7 +11,7 @@ export const data = [
     name: "silver",
     pictures: [cat1, cat2, cat3],
     type: "cat",
-    race: "none",
+    race: "Ragdoll",
     vaccinated: true,
     health: "great",
     age: "5",

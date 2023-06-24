@@ -1,5 +1,5 @@
 import { Navbar } from "./components/Navbar";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { Home } from "./containers/Home";
 import { Details } from "./containers/Details";
 
@@ -9,11 +9,12 @@ function App() {
       <nav className="bg-white py-4 ">
         <Navbar />
       </nav>
-      <div className="pt-8">
-        <main className="container px-6 mx-auto ">
+      <div className="">
+        <main className="container px-6 mx-auto py-8">
           <Routes>
             <Route index element={<Home />} />
             <Route path="/:id" element={<Details />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
       </div>

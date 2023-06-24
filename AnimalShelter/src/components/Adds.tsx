@@ -5,7 +5,7 @@ export function Adds() {
     <section className="mt-5 pb-10">
       <div className="my-5">
         <h1 className="text-lg font-bold">Advertisement</h1>
-        <small className="text-grayish">For Adoption</small>
+        <small className="text-lightGray">For Adoption</small>
       </div>
       <div className="grid grid-cols-fill gap-4">
         {data.map((ad) => (
