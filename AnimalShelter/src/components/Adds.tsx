@@ -1,6 +1,16 @@
 import { Card } from "./Card";
 import { data } from "../data/add";
-export function Adds() {
+import { useMemo } from "react";
+type AddsProps = {
+  filterState: string;
+};
+
+export function Adds({ filterState }: AddsProps) {
+  console.log(filterState);
+  const filteredData = data.filter((add) => {
+    return add.type.includes(filterState);
+  });
+  // const filteredData = data;
   return (
     <section className="mt-5 pb-10">
       <div className="my-5">
@@ -8,7 +18,7 @@ export function Adds() {
         <small className="text-lightGray">For Adoption</small>
       </div>
       <div className="grid grid-cols-fill gap-4">
-        {data.map((ad) => (
+        {filteredData.map((ad) => (
           <Card
             key={ad.id}
             type={ad.type}

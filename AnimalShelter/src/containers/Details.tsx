@@ -38,7 +38,7 @@ export function Details() {
             </p>
           </button>
         </div>
-        <section>
+        <section className="capitalize">
           <div className="flex flex-col md:flex-row gap-3 ">
             <div className="basis-1/2">
               <h1 className="font-bold text-xl mb-5">Information</h1>
