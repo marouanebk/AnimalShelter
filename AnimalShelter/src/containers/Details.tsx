@@ -92,6 +92,15 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{addDetails.age}</td>
                     </tr>
+                    <tr className="bg-white border-b border-orange">
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-black whitespace-nowrap "
+                      >
+                        Post Date
+                      </th>
+                      <td className="px-6 py-4">{addDetails.date}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>

@@ -6,9 +6,10 @@ type cardProps = {
   location: string;
   type: string;
   id: number;
+  date: string;
 };
 
-export function Card({ pictures, location, type, id }: cardProps) {
+export function Card({ pictures, location, type, id, date }: cardProps) {
   return (
     <div className="max-w-fit  border-[3px]  border-black p-2 bg-white mx-auto sm:mx-0">
       <Link to={`/${id}`}>
@@ -27,9 +28,10 @@ export function Card({ pictures, location, type, id }: cardProps) {
         </p>
       </div>
       <hr className="mb-2" />
-      <a href="">
+      <div className="flex justify-between">
         <FaHeart />
-      </a>
+        <p className="text-sm text-lightGray">{date}</p>
+      </div>
     </div>
   );
 }

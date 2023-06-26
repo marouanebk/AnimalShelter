@@ -18,6 +18,7 @@ export const data = [
     owner: "username",
     location: "alger",
     number: "0541++",
+    date: "12/2/2023",
   },
   {
     id: 1,
@@ -31,5 +32,6 @@ export const data = [
     owner: "username",
     location: "tipaza",
     number: "0541++",
+    date: "12/2/2023",
   },
 ];

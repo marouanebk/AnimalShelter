@@ -1,6 +1,5 @@
 import { Card } from "./Card";
 import { data } from "../data/add";
-import { useMemo } from "react";
 type AddsProps = {
   filterState: string;
 };
@@ -25,6 +24,7 @@ export function Adds({ filterState }: AddsProps) {
             location={ad.location}
             pictures={ad.pictures}
             id={ad.id}
+            date={ad.date}
           />
         ))}
       </div>
