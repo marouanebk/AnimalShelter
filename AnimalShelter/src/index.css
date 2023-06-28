@@ -21,13 +21,13 @@ body {
   background-color: #fff;
 }
 
-.active {
+.filter-active {
   position: relative;
   transition: 0.3s;
 
 }
 
-.active img {
+.filter-active img {
   padding: 1rem;
   border-color: transparent;
   transition: 0.3s;
@@ -35,7 +35,7 @@ body {
 
 
 
-.active::before {
+.filter-active::before {
   content: "";
   position: absolute;
   background-image: radial-gradient(50% 50% at 50% 50%, rgba(255, 0, 128, .3) 0, rgba(255, 0, 128, .2) 100%);
@@ -51,7 +51,7 @@ body {
   z-index: -10;
 }
 
-.active::after {
+.filter-active::after {
   content: "";
   background-image: radial-gradient(50% 50% at 50% 50%, rgba(1, 107, 231, .2) 0, rgba(1, 106, 229, .4) 100%);
   position: absolute;
@@ -102,4 +102,14 @@ body {
     -webkit-transform: scale(1);
     transform: scale(1);
   }
+}
+
+
+.nav.default-nav {
+  opacity: 0;
+  transition: .3s;
+}
+
+.slide-container:hover .nav.default-nav {
+  opacity: 1;
 }

@@ -17,16 +17,16 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
   function handleClick(e: MouseEvent) {
     const target = e.target as Element;
 
-    if (target.parentElement!.classList.contains("active")) {
+    if (target.parentElement!.classList.contains("filter-active")) {
       [catRef, dogRef, otherRef].forEach((element) => {
-        element.current!.classList.remove("active");
+        element.current!.classList.remove("filter-active");
       });
       setFilterState("");
     } else {
       [catRef, dogRef, otherRef].forEach((element) => {
-        element.current!.classList.remove("active");
+        element.current!.classList.remove("filter-active");
       });
-      target.parentElement!.classList.add("active");
+      target.parentElement!.classList.add("filter-active");
     }
   }
 

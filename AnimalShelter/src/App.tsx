@@ -2,6 +2,7 @@ import { Navbar } from "./components/Navbar";
 import { Navigate, Route, Routes } from "react-router";
 import { Home } from "./containers/Home";
 import { Details } from "./containers/Details";
+import { Authentication } from "./containers/authentication";
 
 function App() {
   return (

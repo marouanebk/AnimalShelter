@@ -20,7 +20,7 @@ export function Details() {
           {addDetails.pictures.map((i, index) => (
             <div key={index}>
               <img
-                src={i}
+                src={i.url}
                 alt="pic"
                 className="block border-[3px] border-black w-52 h-52 object-cover"
               />

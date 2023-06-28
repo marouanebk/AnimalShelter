@@ -1,8 +1,10 @@
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import "react-slideshow-image/dist/styles.css";
+import { Slide } from "react-slideshow-image";
 
 type cardProps = {
-  pictures: string[];
+  pictures: { url: string }[];
   location: string;
   type: string;
   id: number;
@@ -11,14 +13,23 @@ type cardProps = {
 
 export function Card({ pictures, location, type, id, date }: cardProps) {
   return (
-    <div className="max-w-fit  border-[3px]  border-black p-2 bg-white mx-auto sm:mx-0">
-      <Link to={`/${id}`}>
-        <img
-          src={pictures[0]}
-          alt="pic"
-          className="w-[183px] h-[196px] object-cover"
-        />
-      </Link>
+    <div className="max-w-fit  border-[3px]  border-black p-2 bg-white mx-auto sm:mx-0 w-[205px] h-[331px]">
+      <div className="slide-container">
+        <Slide>
+          {pictures.map((slideImage: { url: string }, index: number) => (
+            <Link to={`/${id}`}>
+              <img
+                key={index}
+                style={{ width: "100%" }}
+                src={slideImage.url}
+                alt="pic"
+                className="w-[183px] h-[196px] object-cover"
+              />
+            </Link>
+          ))}
+        </Slide>
+      </div>
+
       <div className="font-bold my-2">
         <p>
           Type: <span>{type}</span>

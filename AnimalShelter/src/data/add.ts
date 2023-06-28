@@ -9,7 +9,7 @@ export const data = [
   {
     id: 0,
     name: "silver",
-    pictures: [cat1, cat2, cat3],
+    pictures: [{ url: cat1 }, { url: cat2 }, { url: cat3 }],
     type: "cat",
     race: "Ragdoll",
     vaccinated: true,
@@ -23,7 +23,7 @@ export const data = [
   {
     id: 1,
     name: "max",
-    pictures: [dog1, dog2, dog3],
+    pictures: [{ url: dog1 }, { url: dog2 }, { url: dog3 }],
     type: "dog",
     race: "husky",
     vaccinated: true,
