@@ -38,7 +38,7 @@ body {
 .filter-active::before {
   content: "";
   position: absolute;
-  background-image: radial-gradient(50% 50% at 50% 50%, rgba(255, 0, 128, .3) 0, rgba(255, 0, 128, .2) 100%);
+  background-image: radial-gradient(50% 50% at 50% 50%, rgba(1, 107, 231, .2) 0, rgba(1, 106, 229, .4) 100%);
   filter: blur(30px);
   height: 100px;
   width: 100px;
@@ -53,7 +53,7 @@ body {
 
 .filter-active::after {
   content: "";
-  background-image: radial-gradient(50% 50% at 50% 50%, rgba(1, 107, 231, .2) 0, rgba(1, 106, 229, .4) 100%);
+  background-image: radial-gradient(50% 50% at 50% 50%, rgba(255, 0, 128, .3) 0, rgba(255, 0, 128, .2) 100%);
   position: absolute;
   filter: blur(35px);
   height: 100px;

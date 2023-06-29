@@ -8,9 +8,10 @@ export default {
     extend: {
       colors: {
         blueish: "#F0FCFF",
-        orange: "#fafafa",
+        main: "#fafafa",
         redish: "#FDDADA",
-        lightGray: "#616161"
+        lightGray: "#616161",
+        lighterGray: "#F0F0F0"
       },
       boxShadow: {
         strong: "5px 4px 0px 0px #000;"
