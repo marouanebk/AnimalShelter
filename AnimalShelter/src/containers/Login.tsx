@@ -1,7 +1,19 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
+import { useRef } from "react";
 
 export function Login() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const checkboxRef = useRef<HTMLInputElement>(null);
+
+  const togglePassword = (e: any) => {
+    const check = e.target!.checked;
+    if (check) {
+      inputRef.current!.type = "text";
+    } else {
+      inputRef.current!.type = "password";
+    }
+  };
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
       <div className="filter-active--secondary">
@@ -26,9 +38,15 @@ export function Login() {
               placeholder="Password"
               className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
               required
+              ref={inputRef}
             />
           </div>
-          <input type="checkbox" className="me-3" />
+          <input
+            type="checkbox"
+            className="me-3"
+            ref={checkboxRef}
+            onClick={togglePassword}
+          />
           <label htmlFor="">show password</label>
           <div className="mt-4 w-full text-left">
             <button className="border-2 border-black bg-blueish  font-bold py-1 px-4">

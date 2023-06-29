@@ -1,7 +1,26 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
+import { useRef } from "react";
 
 export function Signup() {
+  const inputRef1 = useRef<HTMLInputElement>(null);
+  const inputRef2 = useRef<HTMLInputElement>(null);
+  const checkboxRef = useRef<HTMLInputElement>(null);
+
+  console.log(inputRef1);
+  console.log(checkboxRef);
+
+  const togglePassword = (e: any) => {
+    const check = e.target!.checked;
+    if (check) {
+      inputRef1.current!.type = "text";
+      inputRef2.current!.type = "text";
+    } else {
+      inputRef1.current!.type = "password";
+      inputRef2.current!.type = "password";
+    }
+  };
+
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
       <div className="filter-active--secondary">
@@ -47,6 +66,7 @@ export function Signup() {
                 placeholder="Password"
                 className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
+                ref={inputRef1}
               />
             </div>
           </div>
@@ -58,8 +78,14 @@ export function Signup() {
                 placeholder="Confirm"
                 className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
+                ref={inputRef2}
               />
-              <input type="checkbox" className="me-3" />
+              <input
+                type="checkbox"
+                className="me-3"
+                ref={checkboxRef}
+                onClick={togglePassword}
+              />
               <label htmlFor="">show password</label>
               <p className="mt-2 text-sm font-normal">
                 Have an account?{" "}
