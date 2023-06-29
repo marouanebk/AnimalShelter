@@ -61,6 +61,12 @@ export function Signup() {
               />
               <input type="checkbox" className="me-3" />
               <label htmlFor="">show password</label>
+              <p className="mt-2 text-sm font-normal">
+                Have an account?{" "}
+                <span className="font-bold underline">
+                  <Link to="/login">Login</Link>
+                </span>
+              </p>
             </div>
             <div className="mt-auto w-full text-right">
               <button className="border-2 border-black bg-blueish  font-bold py-1 px-4">
@@ -68,12 +74,6 @@ export function Signup() {
               </button>
             </div>
           </div>
-          <p className="my-2 text-sm font-normal">
-            Have an account?{" "}
-            <span className="font-bold underline">
-              <Link to="/login">Login</Link>
-            </span>
-          </p>
         </form>
       </div>
       <div>
