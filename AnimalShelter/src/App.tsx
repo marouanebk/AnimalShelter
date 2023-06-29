@@ -8,10 +8,10 @@ import { Signup } from "./containers/Signup";
 function App() {
   return (
     <>
-      <nav className="bg-main py-4 ">
+      <nav className="py-4 ">
         <Navbar />
       </nav>
-      <div className="">
+      <div>
         <main className="container px-6 mx-auto py-8">
           <Routes>
             <Route index element={<Home />} />

@@ -33,7 +33,7 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
   return (
     <main className="mb-10">
       <input
-        className="px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  w-full md:w-[350px] focus:outline-none bg-white font-bold  caret-grayish shadow-strong"
+        className="px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  w-full md:w-[350px] focus:outline-none font-bold  caret-grayish shadow-strong"
         type="text"
         placeholder="Search By Location"
       />

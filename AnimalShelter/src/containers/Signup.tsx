@@ -1,21 +1,22 @@
+import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
 
 export function Signup() {
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
-      <div>
-        <div className="filter-active w-fit mb-3">
+      <div className="filter-active--secondary">
+        <div className="w-fit mb-3">
           <h1 className="uppercase text-3xl font-bold">Sign up</h1>
-          <small className="capitalize">welcome</small>
+          <small className="capitalize font-thing">welcome</small>
         </div>
-        <form action="" className="capitalize text">
+        <form action="" className="capitalize font-bold">
           <div className="flex flex-col md:flex-row gap-6">
             <div>
               <label htmlFor="">enter your first name</label>
               <input
                 type="text"
                 placeholder="First Name"
-                className="block my-3 bg-lighterGray text-lightGray py-2 px-4  focus:outline-none"
+                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
               />
             </div>
@@ -24,7 +25,7 @@ export function Signup() {
               <input
                 type="text"
                 placeholder="Last name"
-                className="block my-3 bg-lighterGray text-lightGray py-2 px-4  focus:outline-none"
+                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
               />
             </div>
@@ -35,7 +36,7 @@ export function Signup() {
               <input
                 type="email"
                 placeholder="Email"
-                className="block my-3 bg-lighterGray text-lightGray py-2 px-4  focus:outline-none"
+                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
               />
             </div>
@@ -44,7 +45,7 @@ export function Signup() {
               <input
                 type="password"
                 placeholder="Password"
-                className="block my-3 bg-lighterGray text-lightGray py-2 px-4  focus:outline-none"
+                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
               />
             </div>
@@ -55,7 +56,7 @@ export function Signup() {
               <input
                 type="password"
                 placeholder="Confirm"
-                className="block my-3 bg-lighterGray text-lightGray py-2 px-4  focus:outline-none"
+                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
               />
               <input type="checkbox" className="me-3" />
@@ -67,6 +68,12 @@ export function Signup() {
               </button>
             </div>
           </div>
+          <p className="my-2 text-sm font-normal">
+            Have an account?{" "}
+            <span className="font-bold underline">
+              <Link to="/login">Login</Link>
+            </span>
+          </p>
         </form>
       </div>
       <div>

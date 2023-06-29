@@ -4,18 +4,18 @@ import bg from "../assets/bg.jpg";
 export function Login() {
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
-      <div>
-        <div className="filter-active w-fit mb-3">
+      <div className="filter-active--secondary">
+        <div className="w-fit mb-3">
           <h1 className="uppercase text-3xl font-bold">Log in</h1>
-          <small className="capitalize">welcome Back</small>
+          <small className="capitalize font-thin">welcome Back</small>
         </div>
-        <form action="" className="capitalize text">
+        <form action="" className="capitalize font-bold">
           <div>
             <label htmlFor="">Enter your Email</label>
             <input
               type="email"
               placeholder="Email"
-              className="block my-3 bg-lighterGray text-lightGray py-2 px-4  focus:outline-none"
+              className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
               required
             />
           </div>
@@ -24,7 +24,7 @@ export function Login() {
             <input
               type="password"
               placeholder="Password"
-              className="block my-3 bg-lighterGray text-lightGray py-2 px-4  focus:outline-none"
+              className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
               required
             />
           </div>
