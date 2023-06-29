@@ -45,7 +45,7 @@ export function Details() {
               <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left text-lightGray ">
                   <tbody>
-                    <tr className="bg-white border-b border-orange">
+                    <tr className="bg-main border-b border-orange">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap"
@@ -54,7 +54,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{addDetails.type}</td>
                     </tr>
-                    <tr className="bg-white border-b border-orange">
+                    <tr className="bg-main border-b ">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -63,7 +63,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{addDetails.race}</td>
                     </tr>
-                    <tr className="bg-white">
+                    <tr className="bg-main border-b ">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -74,7 +74,7 @@ export function Details() {
                         {addDetails.vaccinated.toString()}
                       </td>
                     </tr>
-                    <tr className="bg-white border-b border-orange">
+                    <tr className="bg-main border-b ">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -83,7 +83,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{addDetails.health}</td>
                     </tr>
-                    <tr className="bg-white border-b border-orange">
+                    <tr className="bg-main border-b border-orange">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -92,7 +92,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{addDetails.age}</td>
                     </tr>
-                    <tr className="bg-white border-b border-orange">
+                    <tr className="bg-main border-b ">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -110,7 +110,7 @@ export function Details() {
               <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left text-lightGray ">
                   <tbody>
-                    <tr className="bg-white border-b border-orange">
+                    <tr className="bg-main border-b ">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap"
@@ -119,7 +119,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{addDetails.owner}</td>
                     </tr>
-                    <tr className="bg-white border-b border-orange">
+                    <tr className="bg-main border-b ">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -128,7 +128,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{addDetails.location}</td>
                     </tr>
-                    <tr className="bg-white">
+                    <tr className="bg-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -144,7 +144,7 @@ export function Details() {
           </div>
         </section>
         <br />
-        <Link className="font-black text-md  text-lightGray" to="/">
+        <Link className="font-black" to="/">
           See More Adds?
         </Link>
       </main>
