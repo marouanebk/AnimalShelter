@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
 
 export function Login() {
@@ -35,6 +36,12 @@ export function Login() {
             </button>
           </div>
         </form>
+        <p className="my-2 text-sm">
+          Do not have an account?{" "}
+          <span className="font-bold underline">
+            <Link to="/signup">Sign Up</Link>
+          </span>
+        </p>
       </div>
       <div className="basis-1/2">
         <img src={bg} alt="" />

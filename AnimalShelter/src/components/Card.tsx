@@ -17,7 +17,7 @@ export function Card({ pictures, location, type, id, date }: cardProps) {
       <div className="slide-container">
         <Slide>
           {pictures.map((slideImage: { url: string }, index: number) => (
-            <Link to={`/${id}`}>
+            <Link to={`/${id}`} key={index}>
               <img
                 key={index}
                 style={{ width: "100%" }}
