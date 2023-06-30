@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { data } from "../data/add";
+import { data } from "../data/AddsData";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 

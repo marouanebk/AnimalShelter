@@ -1,5 +1,5 @@
 import { Card } from "./Card";
-import { data } from "../data/add";
+import { data } from "../data/AddsData";
 type AddsProps = {
   filterState: string;
 };

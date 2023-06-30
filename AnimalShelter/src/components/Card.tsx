@@ -13,7 +13,7 @@ type cardProps = {
 
 export function Card({ pictures, location, type, id, date }: cardProps) {
   return (
-    <div className="max-w-fit  border-[3px]  border-black p-2 bg-white mx-auto sm:mx-0 w-[205px] h-[331px]">
+    <div className="max-w-fit  border-[3px]  border-black p-2 bg-white mx-auto sm:mx-0 w-[205px] h-[309px]">
       <div className="slide-container">
         <Slide>
           {pictures.map((slideImage: { url: string }, index: number) => (
