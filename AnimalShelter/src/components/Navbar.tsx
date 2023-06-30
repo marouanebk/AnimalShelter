@@ -7,7 +7,6 @@ export function Navbar() {
   if (pathname == "/login" || pathname == "/signup") {
     check = false;
   }
-  console.log(check);
 
   return (
     <nav className="container px-6 mx-auto ">

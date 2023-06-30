@@ -1,12 +1,11 @@
 import { Card } from "./Card";
-import { data } from "../data/AddsData";
+import { addsData } from "../data/AddsData";
 type AddsProps = {
   filterState: string;
 };
 
 export function Adds({ filterState }: AddsProps) {
-  console.log(filterState);
-  const filteredData = data.filter((add) => {
+  const filteredData = addsData.filter((add) => {
     return add.type.includes(filterState);
   });
   // const filteredData = data;

@@ -4,6 +4,7 @@ import { Home } from "./containers/Home";
 import { Details } from "./containers/Details";
 import { Login } from "./containers/Login";
 import { Signup } from "./containers/Signup";
+import { Dashboard } from "./containers/Dashboard";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/:id" element={<Details />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/user/:id" element={<Dashboard />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
