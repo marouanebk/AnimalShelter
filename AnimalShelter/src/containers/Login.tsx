@@ -1,19 +1,41 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
 import { useRef } from "react";
+import axios from "axios";
 
 export function Login() {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
-  const togglePassword = (e: any) => {
-    const check = e.target!.checked;
-    if (check) {
-      inputRef.current!.type = "text";
-    } else {
-      inputRef.current!.type = "password";
+  const togglePassword = () => {
+    const inputElement = passwordRef.current;
+    if (inputElement) {
+      if (inputElement.type === "password") {
+        inputElement.type = "text";
+      } else {
+        inputElement.type = "password";
+      }
     }
   };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    try {
+      const response = await axios.post("http://localhost:4000/users/login", {
+        email,
+        password,
+      });
+      console.log("Login success:", response.data);
+
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
+
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
       <div className="filter-active--secondary">
@@ -21,24 +43,27 @@ export function Login() {
           <h1 className="uppercase text-3xl font-bold">Log in</h1>
           <small className="capitalize font-thin">welcome Back</small>
         </div>
-        <form action="" className="capitalize font-bold">
+        <form onSubmit={handleLogin} className="capitalize font-bold">
           <div>
-            <label htmlFor="">Enter your Email</label>
+            <label htmlFor="email">Enter your Email</label>
             <input
               type="email"
+              id="email"
               placeholder="Email"
               className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
               required
+              ref={emailRef}
             />
           </div>
           <div>
-            <label htmlFor="">enter your Password</label>
+            <label htmlFor="password">Enter your Password</label>
             <input
               type="password"
+              id="password"
               placeholder="Password"
               className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
               required
-              ref={inputRef}
+              ref={passwordRef}
             />
           </div>
           <input
@@ -47,9 +72,12 @@ export function Login() {
             ref={checkboxRef}
             onClick={togglePassword}
           />
-          <label htmlFor="">show password</label>
+          <label htmlFor="showPassword">Show Password</label>
           <div className="mt-4 w-full text-left">
-            <button className="border-2 border-black bg-blueish  font-bold py-1 px-4">
+            <button
+              type="submit"
+              className="border-2 border-black bg-blueish  font-bold py-1 px-4"
+            >
               Login
             </button>
           </div>

@@ -5,7 +5,20 @@ import { Details } from "./containers/Details";
 import { Login } from "./containers/Login";
 import { Signup } from "./containers/Signup";
 
+import { useContext } from "react";
+
+import { AuthContext } from "./context/AuthContext";
 function App() {
+  const { currentUser } = useContext(AuthContext);
+
+  const RequireAuth = ({ children }) => {
+    return (currentUser ? children : <Navigate to={"/auth"} />);
+  }
+
+  const RequireNoAuth = ({ children }) => {
+    return (currentUser ? <Navigate to={"/"} /> : children);
+  }
+
   return (
     <>
       <nav className="py-4 ">
@@ -16,8 +29,8 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/:id" element={<Details />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
+            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

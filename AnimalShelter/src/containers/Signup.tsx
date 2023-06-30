@@ -1,25 +1,61 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
 import { useRef } from "react";
+import axios from "axios";
+import { AuthContext } from '../context/AuthContext';
+
 
 export function Signup() {
-  const inputRef1 = useRef<HTMLInputElement>(null);
-  const inputRef2 = useRef<HTMLInputElement>(null);
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
-  console.log(inputRef1);
-  console.log(checkboxRef);
-
-  const togglePassword = (e: any) => {
-    const check = e.target!.checked;
-    if (check) {
-      inputRef1.current!.type = "text";
-      inputRef2.current!.type = "text";
-    } else {
-      inputRef1.current!.type = "password";
-      inputRef2.current!.type = "password";
+  const togglePassword = () => {
+    const inputElement1 = passwordRef.current;
+    const inputElement2 = confirmPasswordRef.current;
+    if (inputElement1 && inputElement2) {
+      if (inputElement1.type === "password") {
+        inputElement1.type = "text";
+        inputElement2.type = "text";
+      } else {
+        inputElement1.type = "password";
+        inputElement2.type = "password";
+      }
     }
   };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const first_Name = firstNameRef.current?.value;
+    const last_Name = lastNameRef.current?.value;
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+    const confirmPassword = confirmPasswordRef.current?.value;
+
+    if (password !== confirmPassword) {
+      console.error("Password confirmation does not match.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:4000/users/register", {
+        first_Name,
+        last_Name,
+        email,
+        password,
+      });
+
+      console.log("Signup success:", response.data);
+
+    } catch (error) {
+      console.error("Signup error:", error);
+
+    }
+  };
+
 
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
@@ -28,57 +64,65 @@ export function Signup() {
           <h1 className="uppercase text-3xl font-bold">Sign up</h1>
           <small className="capitalize font-thing">welcome</small>
         </div>
-        <form action="" className="capitalize font-bold">
+        <form onSubmit={handleSignup} className="capitalize font-bold">
           <div className="flex flex-col md:flex-row gap-6">
             <div>
-              <label htmlFor="">enter your first name</label>
+              <label htmlFor="firstName">Enter your First Name</label>
               <input
                 type="text"
+                id="firstName"
                 placeholder="First Name"
                 className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
+                ref={firstNameRef}
               />
             </div>
             <div>
-              <label htmlFor="">enter your Last name</label>
+              <label htmlFor="lastName">Enter your Last Name</label>
               <input
                 type="text"
-                placeholder="Last name"
+                id="lastName"
+                placeholder="Last Name"
                 className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
+                ref={lastNameRef}
               />
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-6">
             <div>
-              <label htmlFor="">enter your Email</label>
+              <label htmlFor="email">Enter your Email</label>
               <input
                 type="email"
+                id="email"
                 placeholder="Email"
                 className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
+                ref={emailRef}
               />
             </div>
             <div>
-              <label htmlFor="">enter your Password</label>
+              <label htmlFor="password">Enter your Password</label>
               <input
                 type="password"
+                id="password"
                 placeholder="Password"
                 className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
-                ref={inputRef1}
+                ref={passwordRef}
               />
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-6">
             <div>
-              <label htmlFor="">confirm your Password</label>
+              <label htmlFor="confirmPassword">Confirm your Password</label>
               <input
                 type="password"
-                placeholder="Confirm"
+                id="confirmPassword"
+                placeholder="Confirm Password"
                 className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                 required
-                ref={inputRef2}
+                ref={confirmPasswordRef}
               />
               <input
                 type="checkbox"
@@ -86,7 +130,7 @@ export function Signup() {
                 ref={checkboxRef}
                 onClick={togglePassword}
               />
-              <label htmlFor="">show password</label>
+              <label htmlFor="">Show Password</label>
               <p className="mt-2 text-sm font-normal">
                 Have an account?{" "}
                 <span className="font-bold underline">
@@ -95,7 +139,10 @@ export function Signup() {
               </p>
             </div>
             <div className="mt-auto w-full text-right">
-              <button className="border-2 border-black bg-blueish  font-bold py-1 px-4">
+              <button
+                type="submit"
+                className="border-2 border-black bg-blueish font-bold py-1 px-4"
+              >
                 Signup
               </button>
             </div>

@@ -32,10 +32,10 @@ exports.getAdsByDate = async (req, res, next) => {
 };
 
 exports.getAdById = async (req, res, next) => {
-    const { adId } = req.params;
+    const { id } = req.params;
 
     try {
-        const ad = await Ad.findById(adId)
+        const ad = await Ad.findById(id)
             .populate({
                 path: 'userID',
                 //   select: 'location',
