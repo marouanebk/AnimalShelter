@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
 import { useRef } from "react";
 import axios from "axios";
-import { AuthContext } from '../context/AuthContext';
-
 
 export function Signup() {
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -41,21 +39,21 @@ export function Signup() {
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/users/register", {
-        first_Name,
-        last_Name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:4000/users/register",
+        {
+          first_Name,
+          last_Name,
+          email,
+          password,
+        }
+      );
 
       console.log("Signup success:", response.data);
-
     } catch (error) {
       console.error("Signup error:", error);
-
     }
   };
-
 
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">

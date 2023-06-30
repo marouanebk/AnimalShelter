@@ -71,7 +71,7 @@ export function Dashboard() {
           <div>
             <table className="w-full text-sm text-left text-lightGray ">
               <tbody>
-                <tr className="bg-main border-b border-b-2 border-white">
+                <tr className="bg-main  border-b-2 border-white">
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-black whitespace-nowrap"
@@ -80,7 +80,7 @@ export function Dashboard() {
                   </th>
                   <td className="px-6 py-4">{user?.firstName}</td>
                 </tr>
-                <tr className="bg-main border-b border-b-2 border-white">
+                <tr className="bg-main  border-b-2 border-white">
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-black whitespace-nowrap"
@@ -89,7 +89,7 @@ export function Dashboard() {
                   </th>
                   <td className="px-6 py-4">{user?.lastName}</td>
                 </tr>
-                <tr className="bg-main border-b border-b-2 border-white">
+                <tr className="bg-main  border-b-2 border-white">
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-black whitespace-nowrap"

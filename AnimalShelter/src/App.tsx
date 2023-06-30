@@ -12,13 +12,13 @@ import { AuthContext } from "./context/AuthContext";
 function App() {
   const { currentUser } = useContext(AuthContext);
 
-  // const RequireAuth = ({ children }) => {
-  //   return (currentUser ? children : <Navigate to={"/auth"} />);
-  // }
+  const RequireAuth = ({ children }: any) => {
+    return currentUser ? children : <Navigate to={"/auth"} />;
+  };
 
-  // const RequireNoAuth = ({ children }) => {
-  //   return (currentUser ? <Navigate to={"/"} /> : children);
-  // }
+  const RequireNoAuth = ({ children }: any) => {
+    return currentUser ? <Navigate to={"/"} /> : children;
+  };
 
   return (
     <>
