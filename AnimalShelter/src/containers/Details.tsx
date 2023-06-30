@@ -1,11 +1,11 @@
 import { useParams } from "react-router";
-import { data } from "../data/add";
+import { addsData } from "../data/AddsData";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export function Details() {
   const { id } = useParams();
-  const addDetails = data.find((item) => item.id == +id!)!;
+  const addDetails = addsData.find((item) => item.id == +id!)!;
 
   return (
     <>
