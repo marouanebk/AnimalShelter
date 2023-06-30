@@ -12,13 +12,13 @@ import { AuthContext } from "./context/AuthContext";
 function App() {
   const { currentUser } = useContext(AuthContext);
 
-  const RequireAuth = ({ children }) => {
-    return (currentUser ? children : <Navigate to={"/auth"} />);
-  }
+  // const RequireAuth = ({ children }) => {
+  //   return (currentUser ? children : <Navigate to={"/auth"} />);
+  // }
 
-  const RequireNoAuth = ({ children }) => {
-    return (currentUser ? <Navigate to={"/"} /> : children);
-  }
+  // const RequireNoAuth = ({ children }) => {
+  //   return (currentUser ? <Navigate to={"/"} /> : children);
+  // }
 
   return (
     <>
@@ -30,8 +30,10 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/:id" element={<Details />} />
-            <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
-            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
+            {/* <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
+            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} /> */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/user/:id" element={<Dashboard />} />
