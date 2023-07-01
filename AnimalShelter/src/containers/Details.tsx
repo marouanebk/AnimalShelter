@@ -2,25 +2,75 @@ import { useParams } from "react-router";
 import { addsData } from "../data/AddsData";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useState , useEffect } from "react";
+import axios from "axios";
 
 export function Details() {
   const { id } = useParams();
+  
+  type Ad = {
+    _id: number;
+    animalName: string;
+    type: string;
+    location: string;
+    pictures: string[];
+    date: string;
+    race: string;
+    vaccinated: boolean;
+    health: string;
+    age: number;
+    owner: {
+      first_name: string;
+      last_name: string;
+      email: string;
+      id: string;
+      location: string;
+      number: string;
+    };
+
+  };
+
+  // const [details, setDetails] = useState<Ad>();
+  const [details, setDetails] = useState<Ad | null>(null);
+
   const addDetails = addsData.find((item) => item.id == +id!)!;
+
+  const getAds = async () => {
+    try {
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      const res = await axios.get(`http://localhost:4000/ads/${id}`);
+      const result = await res.data['ad'];
+      setDetails(result);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAds();
+  }, []);
+
+  if (!details) {
+    return <div>Loading...</div>;
+  }
+
 
   return (
     <>
       <main>
         <div className="mb-5">
-          <h1 className="text-4xl font-bold capitalize">{addDetails?.name}</h1>
+          <h1 className="text-4xl font-bold capitalize">{details.animalName}</h1>
           <small className="text-lightGrayadd swiping the images">
             Pictures
           </small>
         </div>
         <div className="flex gap-7 items-center justify-between flex-col sm:flex-row max-w-2xl">
-          {addDetails.pictures.map((i, index) => (
+          {details.pictures.map((i, index) => (
             <div key={index}>
               <img
-                src={i.url}
+                src={i}
                 alt="pic"
                 className="block border-[3px] border-black w-52 h-52 object-cover"
               />
@@ -52,7 +102,7 @@ export function Details() {
                       >
                         Type
                       </th>
-                      <td className="px-6 py-4">{addDetails.type}</td>
+                      <td className="px-6 py-4">{details.type}</td>
                     </tr>
                     <tr className="bg-main border-b ">
                       <th
@@ -61,7 +111,7 @@ export function Details() {
                       >
                         Race
                       </th>
-                      <td className="px-6 py-4">{addDetails.race}</td>
+                      <td className="px-6 py-4">{details.race}</td>
                     </tr>
                     <tr className="bg-main border-b ">
                       <th
@@ -71,7 +121,7 @@ export function Details() {
                         Vaccinated?
                       </th>
                       <td className="px-6 py-4">
-                        {addDetails.vaccinated.toString()}
+                        {details.vaccinated.toString()}
                       </td>
                     </tr>
                     <tr className="bg-main border-b ">
@@ -81,7 +131,7 @@ export function Details() {
                       >
                         Health
                       </th>
-                      <td className="px-6 py-4">{addDetails.health}</td>
+                      <td className="px-6 py-4">{details.health}</td>
                     </tr>
                     <tr className="bg-main border-b border-orange">
                       <th
@@ -90,7 +140,7 @@ export function Details() {
                       >
                         Age
                       </th>
-                      <td className="px-6 py-4">{addDetails.age}</td>
+                      <td className="px-6 py-4">{details.age}</td>
                     </tr>
                     <tr className="bg-main border-b ">
                       <th
@@ -99,7 +149,7 @@ export function Details() {
                       >
                         Post Date
                       </th>
-                      <td className="px-6 py-4">{addDetails.date}</td>
+                      <td className="px-6 py-4">{new Date(details.date).toLocaleDateString("en-US")}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -117,7 +167,8 @@ export function Details() {
                       >
                         Owner
                       </th>
-                      <td className="px-6 py-4">{addDetails.owner}</td>
+                      {/* <td className="px-6 py-4">{details.owner}</td> */}
+                      <td className="px-6 py-4">{details.owner.first_name} {details.owner.last_name}</td>
                     </tr>
                     <tr className="bg-main border-b ">
                       <th
@@ -126,7 +177,7 @@ export function Details() {
                       >
                         location
                       </th>
-                      <td className="px-6 py-4">{addDetails.location}</td>
+                      <td className="px-6 py-4">{details.owner.location}</td>
                     </tr>
                     <tr className="bg-main">
                       <th
@@ -135,7 +186,7 @@ export function Details() {
                       >
                         Number
                       </th>
-                      <td className="px-6 py-4">{addDetails.number}</td>
+                      <td className="px-6 py-4">{details.owner.number}</td>
                     </tr>
                   </tbody>
                 </table>

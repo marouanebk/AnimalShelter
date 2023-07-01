@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from '../context/AuthContext';
 
 export function Login() {
+  const { dispatch }: any = useContext(AuthContext)
+
+
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
@@ -30,6 +35,8 @@ export function Login() {
         password,
       });
       console.log("Login success:", response.data);
+      dispatch({ type: 'LOGIN', payload: { email: email } })
+
 
     } catch (error) {
       console.error("Login error:", error);

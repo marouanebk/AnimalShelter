@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const adSchema = new mongoose.Schema({
-    userID: {
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true

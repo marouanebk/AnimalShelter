@@ -6,12 +6,19 @@ import other from "../assets/other.jpg";
 type FilterProps = {
   setFilterState: (s: string) => void;
   filterState: string;
+  setSearchQuery: (s: string) => void;
 };
 
 export function Filter({ setFilterState, filterState }: FilterProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const catRef = useRef<HTMLDivElement>(null);
   const dogRef = useRef<HTMLDivElement>(null);
   const otherRef = useRef<HTMLDivElement>(null);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   // function that toggles the category filter styling
   function handleClick(e: MouseEvent) {
@@ -36,6 +43,8 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
         className="px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  w-full md:w-[350px] focus:outline-none font-bold  caret-grayish shadow-strong"
         type="text"
         placeholder="Search By Location"
+        value={searchQuery}
+        onChange={handleSearch}
       />
       <div className="my-6">
         <div className="my-5">

@@ -28,15 +28,15 @@ function App() {
       <div>
         <main className="container px-6 mx-auto py-8">
           <Routes>
-            <Route index element={<Home />} />
-            <Route path="/:id" element={<Details />} />
-            {/* <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
-            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} /> */}
+            <Route path="/ads" element={<Home />} />
+            <Route path="/ads/:id" element={<Details />} />
+            <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
+            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
+            {/* <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/user/:id" element={<Dashboard />} />
+            <Route path="/user/:id" element={<RequireAuth><Dashboard /> </RequireAuth>} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
-import { useRef } from "react";
+import { useRef , useContext } from "react";
 import axios from "axios";
+import { AuthContext } from '../context/AuthContext';
+
 
 export function Signup() {
+  const { dispatch } : any = useContext(AuthContext)
+
+
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -27,8 +32,9 @@ export function Signup() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    const first_Name = firstNameRef.current?.value;
-    const last_Name = lastNameRef.current?.value;
+
+    const first_name = firstNameRef.current?.value;
+    const last_name = lastNameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     const confirmPassword = confirmPasswordRef.current?.value;
@@ -42,14 +48,18 @@ export function Signup() {
       const response = await axios.post(
         "http://localhost:4000/users/register",
         {
-          first_Name,
-          last_Name,
+          first_name,
+          last_name,
           email,
           password,
         }
       );
-
+ 
       console.log("Signup success:", response.data);
+      // dispatch({ type: 'LOGIN', payload: { id: response.data.id, email } })
+      dispatch({ type: 'LOGIN', payload: { email : email } })
+
+      //
     } catch (error) {
       console.error("Signup error:", error);
     }
