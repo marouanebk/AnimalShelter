@@ -13,11 +13,11 @@ function App() {
   const { currentUser } = useContext(AuthContext);
 
   const RequireAuth = ({ children }: any) => {
-    return currentUser ? children : <Navigate to={"/auth"} />;
+    return currentUser ? children : <Navigate to={"/login"} />;
   };
 
   const RequireNoAuth = ({ children }: any) => {
-    return currentUser ? <Navigate to={"/"} /> : children;
+    return currentUser ? <Navigate to={"/ads"} /> : children;
   };
 
   return (
@@ -32,12 +32,8 @@ function App() {
             <Route path="/ads/:id" element={<Details />} />
             <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
             <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} /> */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
             <Route path="/user/:id" element={<RequireAuth><Dashboard /> </RequireAuth>} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<Navigate to="/ads" />} />
           </Routes>
         </main>
       </div>

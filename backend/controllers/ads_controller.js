@@ -40,12 +40,21 @@ exports.getAdById = async (req, res, next) => {
 };
 
 exports.getAdsByType = async (req, res, next) => {
-    const { type } = req.query;
+    const { type, location } = req.query;
   
     try {
       let ads;
+      const query = {};
+  
       if (type) {
-        ads = await Ad.find({ type }).sort({ date: -1 }).populate({
+        query.type = type;
+      }
+  
+      if (location) {
+        query['location'] = { $regex: location, $options: 'i' };
+      }  
+      if (Object.keys(query).length > 0) {
+        ads = await Ad.find(query).sort({ date: -1 }).populate({
           path: 'owner',
         });
       } else {

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import cat from "../assets/cat.jpg";
 import dog from "../assets/dog.jpg";
 import other from "../assets/other.jpg";
@@ -11,6 +12,7 @@ type FilterProps = {
 
 export function Filter({ setFilterState, filterState }: FilterProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const catRef = useRef<HTMLDivElement>(null);
   const dogRef = useRef<HTMLDivElement>(null);
@@ -21,19 +23,17 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
   };
 
   // function that toggles the category filter styling
-  function handleClick(e: MouseEvent) {
-    const target = e.target as Element;
+  function handleClick(category: string) {
+    [catRef, dogRef, otherRef].forEach((element) => {
+      element.current!.classList.remove("filter-active");
+    });
 
-    if (target.parentElement!.classList.contains("filter-active")) {
-      [catRef, dogRef, otherRef].forEach((element) => {
-        element.current!.classList.remove("filter-active");
-      });
+    if (filterState === category) {
       setFilterState("");
+      navigate(`/ads`);
     } else {
-      [catRef, dogRef, otherRef].forEach((element) => {
-        element.current!.classList.remove("filter-active");
-      });
-      target.parentElement!.classList.add("filter-active");
+      setFilterState(category);
+      navigate(`/ads?type=${category}`);
     }
   }
 
@@ -53,47 +53,27 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
         </div>
         <div className="flex gap-5 items-center justify-between w-full md:w-[450px] font-bold">
           <div
-            onClick={(e: any) => {
-              handleClick(e);
-            }}
+            onClick={() => handleClick("cat")}
             ref={catRef}
+            className={filterState === "cat" ? "filter-active" : ""}
           >
-            <img
-              src={cat}
-              alt="cat"
-              className="aspect-square w-[150px] border-[3px] border-black "
-              onClick={() => setFilterState("cat")}
-            />
+            <img src={cat} alt="cat" className="aspect-square w-[150px] border-[3px] border-black" />
             <h2 className="mt-3 text-lg">Cats</h2>
           </div>
           <div
-            onClick={(e: any) => {
-              handleClick(e);
-            }}
+            onClick={() => handleClick("dog")}
             ref={dogRef}
+            className={filterState === "dog" ? "filter-active" : ""}
           >
-            <img
-              src={dog}
-              alt="cat"
-              className="aspect-square w-[150px] border-[3px]
-                 border-black"
-              onClick={() => setFilterState("dog")}
-            />
-
+            <img src={dog} alt="dog" className="aspect-square w-[150px] border-[3px] border-black" />
             <h2 className="mt-3 text-lg">Dogs</h2>
           </div>
           <div
-            onClick={(e: any) => {
-              handleClick(e);
-            }}
+            onClick={() => handleClick("other")}
             ref={otherRef}
+            className={filterState === "other" ? "filter-active" : ""}
           >
-            <img
-              src={other}
-              alt="other"
-              className="aspect-square w-[150px] h-auto object-cover border-[3px]  border-black "
-              onClick={() => setFilterState("other")}
-            />
+            <img src={other} alt="other" className="aspect-square w-[150px] h-auto object-cover border-[3px] border-black" />
             <h2 className="mt-3 text-lg">Other</h2>
           </div>
         </div>

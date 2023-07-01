@@ -15,6 +15,9 @@ export function Adds({ filterState }: AddsProps) {
     location: string;
     pictures: string[];
     date: string;
+    owner: {
+      location: string;
+    }
   };
 
   const [ads, setAds] = useState<Ad[]>([]);
@@ -28,7 +31,7 @@ export function Adds({ filterState }: AddsProps) {
     try {
       const searchParams = new URLSearchParams(location.search);
       const filterState = searchParams.get("type");
-      const searchQuery = searchParams.get("query");
+      const searchQuery = searchParams.get("location");
 
       let apiUrl = "http://localhost:4000/ads";
       if (filterState) {
@@ -36,7 +39,7 @@ export function Adds({ filterState }: AddsProps) {
       }
 
       if (searchQuery) {
-        apiUrl += `&query=${searchQuery}`;
+        apiUrl += `&location=${searchQuery}`;
       }
       console.log(apiUrl);
 
@@ -63,7 +66,7 @@ export function Adds({ filterState }: AddsProps) {
           <Card
             key={ad._id}
             type={ad.type}
-            location={ad.location}
+            location={ad.owner.location}
             pictures={ad.pictures}
             id={ad._id}
             date={ad.date}
