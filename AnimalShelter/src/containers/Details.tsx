@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { addsData } from "../data/AddsData";
+// import { addsData } from "../data/AddsData";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -30,7 +30,7 @@ export function Details() {
   };
 
   const [details, setDetails] = useState<Ad | null>(null);
-  const addDetails = addsData.find((item) => item.id == +id!)!;
+  // const addDetails = addsData.find((item) => item.id == +id!)!;
 
   const getAds = async () => {
     try {

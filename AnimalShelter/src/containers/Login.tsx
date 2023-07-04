@@ -3,9 +3,13 @@ import bg from "../assets/bg.jpg";
 import { useRef, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
+
 
 export function Login() {
   const { dispatch }: any = useContext(AuthContext)
+  const navigate = useNavigate();
+
 
 
 
@@ -34,8 +38,14 @@ export function Login() {
         email,
         password,
       });
-      console.log("Login success:", response.data);
-      dispatch({ type: 'LOGIN', payload: { email: email } })
+      console.log("Login success:", response.status);
+      if (response.status === 200) {
+
+      dispatch({ type: 'LOGIN', payload: { email: email ,token : response.data.token  } })
+
+        // navigate("/");
+      }
+      // dispatch({ type: 'LOGIN', payload: { email: email } })
 
 
     } catch (error) {

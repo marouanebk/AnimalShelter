@@ -56,8 +56,13 @@ export function Signup() {
       );
  
       console.log("Signup success:", response.data);
+      if (response.status === 200) {
+        dispatch({ type: 'LOGIN', payload: { email: email , token :  response.data.token } })
+  
+          // navigate("/");
+        }
       // dispatch({ type: 'LOGIN', payload: { id: response.data.id, email } })
-      dispatch({ type: 'LOGIN', payload: { email : email } })
+      // dispatch({ type: 'LOGIN', payload: { email : email } })
 
       //
     } catch (error) {
