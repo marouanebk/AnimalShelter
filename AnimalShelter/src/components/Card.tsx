@@ -4,7 +4,7 @@ import "react-slideshow-image/dist/styles.css";
 import { Slide } from "react-slideshow-image";
 
 type CardProps = {
-  pictures: string[];
+  pictures: { url: string }[];
   location: string;
   type: string;
   id: number;
@@ -20,7 +20,7 @@ export function Card({ pictures, location, type, id, date }: CardProps) {
             <Link to={`/ads/${id}`} key={index}>
               <img
                 style={{ width: "100%" }}
-                src={picture}
+                src={picture.url}
                 alt="pic"
                 className="w-[183px] h-[196px] object-cover"
               />
@@ -40,7 +40,9 @@ export function Card({ pictures, location, type, id, date }: CardProps) {
       <hr className="mb-2" />
       <div className="flex justify-between">
         <FaHeart />
-        <p className="text-sm text-lightGray">{new Date(date).toLocaleDateString("en-US")}</p>
+        <p className="text-sm text-lightGray">
+          {new Date(date).toLocaleDateString("en-US")}
+        </p>
       </div>
     </div>
   );

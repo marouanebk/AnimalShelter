@@ -5,10 +5,9 @@ import { Details } from "./containers/Details";
 import { Login } from "./containers/Login";
 import { Signup } from "./containers/Signup";
 import { Dashboard } from "./containers/Dashboard";
-
 import { useContext } from "react";
-
 import { AuthContext } from "./context/AuthContext";
+
 function App() {
   const { currentUser } = useContext(AuthContext);
 
@@ -30,9 +29,30 @@ function App() {
           <Routes>
             <Route path="/ads" element={<Home />} />
             <Route path="/ads/:id" element={<Details />} />
-            <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
-            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
-            <Route path="/user/:id" element={<RequireAuth><Dashboard /> </RequireAuth>} />
+            <Route
+              path="/login"
+              element={
+                <RequireNoAuth>
+                  <Login />
+                </RequireNoAuth>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <RequireNoAuth>
+                  <Signup />
+                </RequireNoAuth>
+              }
+            />
+            <Route
+              path="/user/:id"
+              element={
+                <RequireAuth>
+                  <Dashboard />{" "}
+                </RequireAuth>
+              }
+            />
             <Route path="*" element={<Navigate to="/ads" />} />
           </Routes>
         </main>
