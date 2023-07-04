@@ -2,12 +2,12 @@ import { useParams } from "react-router";
 import { addsData } from "../data/AddsData";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export function Details() {
   const { id } = useParams();
-  
+
   type Ad = {
     _id: number;
     animalName: string;
@@ -27,12 +27,9 @@ export function Details() {
       location: string;
       number: string;
     };
-
   };
 
-  // const [details, setDetails] = useState<Ad>();
   const [details, setDetails] = useState<Ad | null>(null);
-
   const addDetails = addsData.find((item) => item.id == +id!)!;
 
   const getAds = async () => {
@@ -40,9 +37,9 @@ export function Details() {
       // await new Promise((resolve) => setTimeout(resolve, 5000));
 
       const res = await axios.get(`http://localhost:4000/ads/${id}`);
-      const result = await res.data['ad'];
+      const result = await res.data["ad"];
       setDetails(result);
-      console.log(result);
+      console.log(result, "RESULT");
     } catch (error) {
       console.log(error);
     }
@@ -53,15 +50,22 @@ export function Details() {
   }, []);
 
   if (!details) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center">
+        <div className="lds-heart">
+          <div></div>
+        </div>
+      </div>
+    );
   }
-
 
   return (
     <>
       <main>
         <div className="mb-5">
-          <h1 className="text-4xl font-bold capitalize">{details.animalName}</h1>
+          <h1 className="text-4xl font-bold capitalize">
+            {details.animalName}
+          </h1>
           <small className="text-lightGrayadd swiping the images">
             Pictures
           </small>
@@ -95,7 +99,7 @@ export function Details() {
               <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left text-lightGray ">
                   <tbody>
-                    <tr className="bg-main border-b border-orange">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap"
@@ -104,7 +108,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{details.type}</td>
                     </tr>
-                    <tr className="bg-main border-b ">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -113,7 +117,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{details.race}</td>
                     </tr>
-                    <tr className="bg-main border-b ">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -124,7 +128,7 @@ export function Details() {
                         {details.vaccinated.toString()}
                       </td>
                     </tr>
-                    <tr className="bg-main border-b ">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -133,7 +137,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{details.health}</td>
                     </tr>
-                    <tr className="bg-main border-b border-orange">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -142,14 +146,16 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{details.age}</td>
                     </tr>
-                    <tr className="bg-main border-b ">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
                       >
                         Post Date
                       </th>
-                      <td className="px-6 py-4">{new Date(details.date).toLocaleDateString("en-US")}</td>
+                      <td className="px-6 py-4">
+                        {new Date(details.date).toLocaleDateString("en-US")}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -160,7 +166,7 @@ export function Details() {
               <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left text-lightGray ">
                   <tbody>
-                    <tr className="bg-main border-b ">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap"
@@ -168,9 +174,11 @@ export function Details() {
                         Owner
                       </th>
                       {/* <td className="px-6 py-4">{details.owner}</td> */}
-                      <td className="px-6 py-4">{details.owner.first_name} {details.owner.last_name}</td>
+                      <td className="px-6 py-4">
+                        {details.owner.first_name} {details.owner.last_name}
+                      </td>
                     </tr>
-                    <tr className="bg-main border-b ">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "
@@ -179,7 +187,7 @@ export function Details() {
                       </th>
                       <td className="px-6 py-4">{details.owner.location}</td>
                     </tr>
-                    <tr className="bg-main">
+                    <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap "

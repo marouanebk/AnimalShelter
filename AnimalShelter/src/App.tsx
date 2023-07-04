@@ -21,7 +21,7 @@ function App() {
 
   return (
     <>
-      <nav className="py-4 ">
+      <nav className="py-4 bg-white">
         <Navbar />
       </nav>
       <div>
