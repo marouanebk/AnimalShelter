@@ -1,26 +1,76 @@
 import { useParams } from "react-router";
 import { Card } from "../components/Card";
-import { usersData } from "../data/usersData";
-import { addsData } from "../data/AddsData";
+// import { usersData } from "../data/usersData";
+// import { addsData } from "../data/AddsData";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AuthContext } from "../context/AuthContext";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import  useUserAds  from "../hooks/useUserAds";
+import  useUserFavorites  from "../hooks/useUserFavorites";
+
+
+
 
 export function Dashboard() {
-  const { id } = useParams();
+  // const { id } = useParams();
+  type User = {
+    first_name: number;
+    last_name: string;
+    email: string;
+  };
 
-  const user = usersData.find((user) => {
-    return user.userId == +id!;
-  });
 
-  const favoriteAdds = addsData.filter((add) =>
-    user?.favorites.includes(add.id)
-  );
-  const myAdds = addsData.filter((add) => user?.hisAdds.includes(add.id));
+  // const [details, setDetails] = useState<Ad | null>(null);
+
+
+  const { currentUser, }: any = useContext(AuthContext);
+
+  const {userAds} = useUserAds(currentUser.id);
+  const {userFavorites} = useUserFavorites(currentUser.id);
+
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+
+
+
+
+
+  const getUser = async () => {
+    try {
+      console.log("user: " + currentUser.id);
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      const res = await axios.get(`http://localhost:4000/users/${currentUser.id}`);
+      const result = await res.data;
+      setUserInfo(result);
+      // setDetails(result);
+      console.log(result, "RESULT");
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [currentUser]);
+
+  if (!userInfo) {
+    return (
+      <div className="flex justify-center">
+        <div className="lds-heart">
+          <div> Loading ....</div>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <main>
       <section className="mb-10">
         <h1 className="filter-active w-fit text-4xl font-bold capitalize mt-4 ">
-          Hello {user?.firstName}
+          Hello {userInfo?.first_name}
         </h1>
         <p className="font-mono text-sm text-lightgray">
           This is your dashboard
@@ -33,13 +83,13 @@ export function Dashboard() {
             <p className="font-mono text-sm text-lightgray">Adds you liked!</p>
           </div>
           <div className="grid grid-cols-fill gap-4">
-            {favoriteAdds.map((add) => (
+            {userFavorites.map((add) => (
               <Card
-                key={add.id}
+                key={add._id}
                 pictures={add.pictures}
                 location={add.location}
                 type={add.type}
-                id={add.id}
+                id={add._id}
                 date={add.date}
               />
             ))}
@@ -51,13 +101,13 @@ export function Dashboard() {
             <p className="font-mono text-sm text-lightgray">Adds you liked!</p>
           </div>
           <div className="grid grid-cols-fill gap-4">
-            {myAdds.map((add) => (
+            {userAds.map((add) => (
               <Card
-                key={add.id}
+                key={add._id}
                 pictures={add.pictures}
                 location={add.location}
                 type={add.type}
-                id={add.id}
+                id={add._id}
                 date={add.date}
               />
             ))}
@@ -78,7 +128,7 @@ export function Dashboard() {
                   >
                     First Name
                   </th>
-                  <td className="px-6 py-4">{user?.firstName}</td>
+                  <td className="px-6 py-4">{userInfo?.first_name}</td>
                 </tr>
                 <tr className="bg-white border-b-2 border-b-main">
                   <th
@@ -87,7 +137,7 @@ export function Dashboard() {
                   >
                     Last Name
                   </th>
-                  <td className="px-6 py-4">{user?.lastName}</td>
+                  <td className="px-6 py-4">{userInfo?.last_name}</td>
                 </tr>
                 <tr className="bg-white border-b-2 border-b-main">
                   <th
@@ -96,7 +146,7 @@ export function Dashboard() {
                   >
                     Email Name
                   </th>
-                  <td className="px-6 py-4">{user?.info.email}</td>
+                  <td className="px-6 py-4">{userInfo?.email}</td>
                 </tr>
               </tbody>
             </table>

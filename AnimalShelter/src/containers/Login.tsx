@@ -41,7 +41,7 @@ export function Login() {
       console.log("Login success:", response.status);
       if (response.status === 200) {
 
-      dispatch({ type: 'LOGIN', payload: { email: email ,token : response.data.token  } })
+      dispatch({ type: 'LOGIN', payload: { email: email ,token : response.data.token  , id: response.data.id } })
 
         // navigate("/");
       }

@@ -9,7 +9,7 @@ const userController = require("../controllers/userController");
 Router.post('/login', userController.login);
 Router.post('/register', userController.register);
 
-Router.get('/getUser', userController.getUserById);
+Router.get('/:id', userController.getUserById);
 
 module.exports = Router;
 // module.exports = router;

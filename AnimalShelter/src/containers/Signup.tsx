@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
-import { useRef , useContext } from "react";
+import { useRef, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from '../context/AuthContext';
 
 
 export function Signup() {
-  const { dispatch } : any = useContext(AuthContext)
+  const { dispatch }: any = useContext(AuthContext)
 
 
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -54,13 +54,13 @@ export function Signup() {
           password,
         }
       );
- 
+
       console.log("Signup success:", response.data);
       if (response.status === 200) {
-        dispatch({ type: 'LOGIN', payload: { email: email , token :  response.data.token } })
-  
-          // navigate("/");
-        }
+        dispatch({ type: 'LOGIN', payload: { email: email, token: response.data.token, id: response.data.id } })
+
+        // navigate("/");
+      }
       // dispatch({ type: 'LOGIN', payload: { id: response.data.id, email } })
       // dispatch({ type: 'LOGIN', payload: { email : email } })
 

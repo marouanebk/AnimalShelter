@@ -10,4 +10,6 @@ Router.post('/createAd', ads_controller.createAd);
 Router.get('/ads', ads_controller.getAdsByType);
 Router.get('/ads/:id', ads_controller.getAdById);
 
+Router.get('/ads_by_user/:userId',ads_controller.getAdsByUserId);
+
 module.exports = Router;

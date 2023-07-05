@@ -4,7 +4,7 @@ import "react-slideshow-image/dist/styles.css";
 import { Slide } from "react-slideshow-image";
 
 type CardProps = {
-  pictures: { url: string }[];
+  pictures: string[];
   location: string;
   type: string;
   id: number;
@@ -20,7 +20,7 @@ export function Card({ pictures, location, type, id, date }: CardProps) {
             <Link to={`/ads/${id}`} key={index}>
               <img
                 style={{ width: "100%" }}
-                src={picture.url}
+                src={picture}
                 alt="pic"
                 className="w-[183px] h-[196px] object-cover"
               />

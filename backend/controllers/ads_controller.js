@@ -82,3 +82,20 @@ exports.getAdsByDate = async (req, res, next) => {
         next(error); // Pass the error to the error handling middleware
     }
 };
+
+
+
+exports.getAdsByUserId = async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+      const ads = await Ad.find({ owner: userId })
+          .populate('owner')
+          .exec();
+
+      res.status(200).json({ ads });
+  } catch (error) {
+      next(error); // Pass the error to the error handling middleware
+  }
+};
+

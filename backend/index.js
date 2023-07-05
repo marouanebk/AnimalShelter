@@ -25,6 +25,7 @@ app.use(cors());
 // app.use("/products", require("./routes/productController"));
 app.use("/users", require("./routes/userRouter"));
 app.use("/", require("./routes/adsRoutes"));
+app.use("/", require("./routes/dashboard_routes"));
 
 let port = 4000;
 const server = app.listen(port, function () {

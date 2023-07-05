@@ -24,7 +24,7 @@ export function Navbar() {
         </Link>
         {check && currentUser ? (
           <div className="flex gap-4 items-center justify-between">
-            <Link to={`/user/${currentUser.token}`}>
+            <Link to={`/user`}>
               <FaUser className="text-2xl" />
             </Link>
             <button
