@@ -6,11 +6,8 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import  useUserAds  from "../hooks/useUserAds";
-import  useUserFavorites  from "../hooks/useUserFavorites";
-
-
-
+import useUserAds from "../hooks/useUserAds";
+import useUserFavorites from "../hooks/useUserFavorites";
 
 export function Dashboard() {
   // const { id } = useParams();
@@ -20,32 +17,27 @@ export function Dashboard() {
     email: string;
   };
 
-
   // const [details, setDetails] = useState<Ad | null>(null);
 
+  const { currentUser }: any = useContext(AuthContext);
 
-  const { currentUser, }: any = useContext(AuthContext);
-
-  const {userAds} = useUserAds(currentUser.id);
-  const {userFavorites} = useUserFavorites(currentUser.id);
+  const { userAds } = useUserAds(currentUser.id);
+  const { userFavorites } = useUserFavorites(currentUser.id);
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
-
-
-
-
 
   const getUser = async () => {
     try {
       console.log("user: " + currentUser.id);
       // await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      const res = await axios.get(`http://localhost:4000/users/${currentUser.id}`);
+      const res = await axios.get(
+        `http://localhost:4000/users/${currentUser.id}`
+      );
       const result = await res.data;
       setUserInfo(result);
       // setDetails(result);
       console.log(result, "RESULT");
-
     } catch (error) {
       console.log(error);
     }
@@ -59,12 +51,11 @@ export function Dashboard() {
     return (
       <div className="flex justify-center">
         <div className="lds-heart">
-          <div> Loading ....</div>
+          <div></div>
         </div>
       </div>
     );
   }
-
 
   return (
     <main>
