@@ -7,6 +7,7 @@ import { Signup } from "./containers/Signup";
 import { Dashboard } from "./containers/Dashboard";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import { NewAddForm } from "./containers/NewAddForm";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -43,6 +44,22 @@ function App() {
                 <RequireNoAuth>
                   <Signup />
                 </RequireNoAuth>
+              }
+            />
+            <Route
+              path="/user"
+              element={
+                <RequireAuth>
+                  <Dashboard />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/user/new-add"
+              element={
+                <RequireAuth>
+                  <NewAddForm />
+                </RequireAuth>
               }
             />
             <Route

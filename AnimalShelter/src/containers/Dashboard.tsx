@@ -1,4 +1,3 @@
-import { useParams } from "react-router";
 import { Card } from "../components/Card";
 // import { usersData } from "../data/usersData";
 // import { addsData } from "../data/AddsData";
@@ -8,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import useUserAds from "../hooks/useUserAds";
 import useUserFavorites from "../hooks/useUserFavorites";
+import { Link } from "react-router-dom";
 
 export function Dashboard() {
   // const { id } = useParams();
@@ -150,8 +150,10 @@ export function Dashboard() {
 
 function NewAdd() {
   return (
-    <div className="max-w-fit  border-[3px] bg-main  border-black p-2  mx-auto sm:mx-0 min-w-[205px] min-h-[309px] flex items-center justify-center">
-      <AiOutlinePlusCircle className="text-6xl text-lightGray" />
+    <div className="max-w-fit  border-[3px] bg-white  border-black p-2  mx-auto sm:mx-0 min-w-[205px] min-h-[309px] flex items-center justify-center">
+      <Link to="/user/new-add">
+        <AiOutlinePlusCircle className="text-6xl text-lightGray" />
+      </Link>
     </div>
   );
 }

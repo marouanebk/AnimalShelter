@@ -55,25 +55,49 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
           <div
             onClick={() => handleClick("cat")}
             ref={catRef}
-            className={filterState === "cat" ? "filter-active" : ""}
+            className={
+              filterState === "cat"
+                ? "filter-active cursor-pointer"
+                : "cursor-pointer"
+            }
           >
-            <img src={cat} alt="cat" className="aspect-square w-[150px] border-[3px] border-black" />
+            <img
+              src={cat}
+              alt="cat"
+              className="aspect-square w-[150px] border-[3px] border-black"
+            />
             <h2 className="mt-3 text-lg">Cats</h2>
           </div>
           <div
             onClick={() => handleClick("dog")}
             ref={dogRef}
-            className={filterState === "dog" ? "filter-active" : ""}
+            className={
+              filterState === "dog"
+                ? "filter-active cursor-pointer"
+                : "cursor-pointer"
+            }
           >
-            <img src={dog} alt="dog" className="aspect-square w-[150px] border-[3px] border-black" />
+            <img
+              src={dog}
+              alt="dog"
+              className="aspect-square w-[150px] border-[3px] border-black"
+            />
             <h2 className="mt-3 text-lg">Dogs</h2>
           </div>
           <div
             onClick={() => handleClick("other")}
             ref={otherRef}
-            className={filterState === "other" ? "filter-active" : ""}
+            className={
+              filterState === "other"
+                ? "filter-active cursor-pointer"
+                : "cursor-pointer"
+            }
           >
-            <img src={other} alt="other" className="aspect-square w-[150px] h-auto object-cover border-[3px] border-black" />
+            <img
+              src={other}
+              alt="other"
+              className="aspect-square w-[150px] h-auto object-cover border-[3px] border-black"
+            />
             <h2 className="mt-3 text-lg">Other</h2>
           </div>
         </div>

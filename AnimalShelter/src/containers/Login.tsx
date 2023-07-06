@@ -2,16 +2,10 @@ import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
 import { useRef, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../context/AuthContext";
 
 export function Login() {
-  const { dispatch }: any = useContext(AuthContext)
-  const navigate = useNavigate();
-
-
-
+  const { dispatch }: any = useContext(AuthContext);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -40,14 +34,18 @@ export function Login() {
       });
       console.log("Login success:", response.status);
       if (response.status === 200) {
-
-      dispatch({ type: 'LOGIN', payload: { email: email ,token : response.data.token  , id: response.data.id } })
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            email: email,
+            token: response.data.token,
+            id: response.data.id,
+          },
+        });
 
         // navigate("/");
       }
       // dispatch({ type: 'LOGIN', payload: { email: email } })
-
-
     } catch (error) {
       console.error("Login error:", error);
     }
