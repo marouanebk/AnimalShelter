@@ -20,7 +20,7 @@ async function register(params) {
     const user = new User(params)
     await user.save();
     const token = auth.generateAccessToken(params.email);
-    return { email: params.email, token };
+    return { email: params.email, token , id : user._id };
 }
 
 async function getById(id) {

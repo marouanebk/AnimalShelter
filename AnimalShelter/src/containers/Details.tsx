@@ -17,7 +17,7 @@ export function Details() {
     date: string;
     race: string;
     vaccinated: boolean;
-    health: string;
+    healthCondition: string;
     age: number;
     owner: {
       first_name: string;
@@ -135,7 +135,7 @@ export function Details() {
                       >
                         Health
                       </th>
-                      <td className="px-6 py-4">{details.health}</td>
+                      <td className="px-6 py-4">{details.healthCondition}</td>
                     </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
