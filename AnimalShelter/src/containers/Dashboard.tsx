@@ -89,7 +89,9 @@ export function Dashboard() {
         <section className="mb-12">
           <div className="mb-5">
             <h2 className="font-bold text-lg">My Adds</h2>
-            <p className="font-mono text-sm text-lightgray">Adds you liked!</p>
+            <p className="font-mono text-sm text-lightgray">
+              Adds you published!
+            </p>
           </div>
           <div className="grid grid-cols-fill gap-4">
             {userAds.map((add) => (
