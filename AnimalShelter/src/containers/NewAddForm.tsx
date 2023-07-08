@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export function NewAddForm() {
   const { currentUser }: any = useContext(AuthContext);
@@ -149,9 +150,11 @@ export function NewAddForm() {
               >
                 Submit
               </button>
-              <button className="border-2 border-black bg-redish font-bold py-1 px-4">
-                Cancel
-              </button>
+              <Link to="/user">
+                <button className="border-2 border-black bg-redish font-bold py-1 px-4">
+                  Cancel
+                </button>
+              </Link>
             </div>
           </div>
         </div>
