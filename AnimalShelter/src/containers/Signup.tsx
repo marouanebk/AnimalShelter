@@ -57,6 +57,7 @@ export function Signup() {
 
       console.log("Signup success:", response.data);
       if (response.status === 200) {
+        // console.log(response.data)
         dispatch({ type: 'LOGIN', payload: { email: email, token: response.data.token, id: response.data.id } })
 
         // navigate("/");

@@ -7,7 +7,7 @@ const cors = require("cors");
 
 mongoose.Promise = global.Promise;
 mongoose
-  .connect("mongodb://0.0.0.0:27017/AnimalShelter", {
+  .connect("mongodb+srv://marouanerev1:gO6EmqqYEMrhpiXL@animalshelter.in9loty.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

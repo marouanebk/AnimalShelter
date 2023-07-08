@@ -8,7 +8,7 @@ exports.register = (req, res, next) => {
     req.body.password = bcrypt.hashSync(password, salt);
 
     userServices.register(req.body)
-        .then(data => res.status(200).json({ success: true, email: data.email, token: data.token })) // Status code 201: Created
+        .then(data => res.status(200).json({ success: true, email: data.email, token: data.token , id : data.id})) // Status code 201: Created
         .catch(err => next(err));
 };
 
