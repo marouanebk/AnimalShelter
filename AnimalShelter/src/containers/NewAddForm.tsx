@@ -1,16 +1,10 @@
-import { useState, useContext , useEffect} from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL
-} from "firebase/storage";
-import storage from "../firebaseconfig"
-
-
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import storage from "../firebaseconfig";
 
 export function NewAddForm() {
   const { currentUser }: any = useContext(AuthContext);
@@ -47,7 +41,6 @@ export function NewAddForm() {
   const [files, setFiles] = useState([]);
   const [percent, setPercent] = useState(0);
 
-
   function handleChange(event: any) {
     const selectedFiles = Array.from(event.target.files);
     setFiles(selectedFiles);
@@ -61,13 +54,13 @@ export function NewAddForm() {
         reject();
         return;
       }
-  
-      const uploadedPictures =[];
-  
+
+      const uploadedPictures = [];
+
       const uploadTasks = files.map((file) => {
         const storageRef = ref(storage, `/files/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
-  
+
         return new Promise((resolve, reject) => {
           uploadTask.on(
             "state_changed",
@@ -75,7 +68,7 @@ export function NewAddForm() {
               const percent = Math.round(
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
               );
-  
+
               setPercent(percent);
             },
             (err) => {
@@ -97,10 +90,10 @@ export function NewAddForm() {
           );
         });
       });
-  
+
       Promise.all(uploadTasks)
         .then(() => {
-          console.log("uploaded pictures ",uploadedPictures);
+          console.log("uploaded pictures ", uploadedPictures);
           const updatedFormData = { ...formData, pictures: uploadedPictures };
           setFormData(updatedFormData);
           console.log(formData.pictures);
@@ -112,16 +105,16 @@ export function NewAddForm() {
         });
     });
   }
-  const handleFormSubmit = async (event : any) => {
+  const handleFormSubmit = async (event: any) => {
     event.preventDefault();
-  
+
     try {
       console.log("in function");
       const uploadedPictures = await handleUpload(formData); // Wait for handleUpload to complete and get the updated pictures array
-  
+
       const updatedFormData = { ...formData, pictures: uploadedPictures }; // Update the formData with the new pictures array
       setFormData(updatedFormData); // Update the state with the new formData
-  
+
       console.log(updatedFormData.pictures);
       const result = await axios.post(
         "http://localhost:4000/createAd",
@@ -138,7 +131,6 @@ export function NewAddForm() {
   //   console.log("Updated formData.pictures:", formData.pictures);
   // }, [formData]);
 
-
   return (
     <main>
       <h1 className="text-3xl font-bold mb-8">
@@ -146,17 +138,27 @@ export function NewAddForm() {
       </h1>
       <p className="font-bold mb-4">Upload Your pictures</p>
 
-      <input type="file" onChange={handleChange} accept="image/*" multiple />
-      {/* <button onClick={handleUpload}>Upload to Firebase</button> */}
       <p>{percent} "% done"</p>
 
       {/*  */}
       {/* <div className="max-w-fit border-[3px] bg-white border-black p-2 mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
         <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
       </div> */}
-      <div className="max-w-fit border-[3px] bg-white border-black p-2 mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
+      <div className="max-w-fit border-[3px] bg-white border-black mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
         {files.length === 0 ? (
-          <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
+          <>
+            <input
+              type="file"
+              id="fileInput"
+              onChange={handleChange}
+              accept="image/*"
+              multiple
+              className="custom-file-input"
+            />
+            <label htmlFor="fileInput" className="custom-file-label">
+              <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
+            </label>
+          </>
         ) : (
           <div className="flex gap-7 items-center justify-between flex-col sm:flex-row max-w-2xl">
             {files.map((file, index) => (
@@ -164,15 +166,13 @@ export function NewAddForm() {
                 <img
                   src={URL.createObjectURL(file)}
                   alt={`pic-${index}`}
-                  className="block border-[3px] border-black w-52 h-52 object-cover"
+                  className="w-52 h-52 object-cover"
                 />
               </div>
             ))}
           </div>
         )}
-
       </div>
-
 
       <form
         className="my-10 flex flex-col md:flex-row gap-40 font-semibold filter-active w-fit"
