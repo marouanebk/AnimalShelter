@@ -1,42 +1,39 @@
-import { useState, useContext } from "react";
+import { useState, useContext , useEffect} from "react";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from "firebase/storage";
+import storage from "../firebaseconfig"
+
+
 
 export function NewAddForm() {
   const { currentUser }: any = useContext(AuthContext);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    owner: any;
+    animalName: string;
+    type: string;
+    race: string;
+    vaccinated: boolean;
+    healthCondition: string;
+    age: string;
+    pictures: string[]; // Specify the type as an array of strings
+  }>({
     owner: currentUser.id,
     animalName: "",
-    type: "cat",
+    type: "",
     race: "",
-    vaccinated: false,
+    vaccinated: true,
     healthCondition: "",
     age: "",
-    pictures: [
-      "https://cdn.pixabay.com/photo/2017/07/25/01/22/cat-2536662_640.jpg",
-      "https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554_1280.jpg",
-      "https://cdn.pixabay.com/photo/2016/12/13/05/15/puppy-1903313_640.jpg",
-    ],
+    pictures: [],
   });
-
-  const handleFormSubmit = async (event: any) => {
-    event.preventDefault();
-
-    try {
-      console.log("in function");
-      const result = await axios.post(
-        "http://localhost:4000/createAd",
-        formData
-      );
-      console.log("after request completed");
-      // Request successful, handle success (e.g., display a success message or redirect the user)
-    } catch (error) {
-      // Request failed, handle error (e.g., display an error message or handle the error in an appropriate manner)
-    }
-  };
 
   const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.target;
@@ -47,6 +44,100 @@ export function NewAddForm() {
       [name]: inputValue,
     }));
   };
+  const [files, setFiles] = useState([]);
+  const [percent, setPercent] = useState(0);
+
+
+  function handleChange(event: any) {
+    const selectedFiles = Array.from(event.target.files);
+    setFiles(selectedFiles);
+  }
+
+  // Handles input change event and updates state
+  function handleUpload(formData) {
+    return new Promise((resolve, reject) => {
+      if (!files.length) {
+        alert("Please choose at least one file first!");
+        reject();
+        return;
+      }
+  
+      const uploadedPictures =[];
+  
+      const uploadTasks = files.map((file) => {
+        const storageRef = ref(storage, `/files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+  
+        return new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const percent = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              );
+  
+              setPercent(percent);
+            },
+            (err) => {
+              console.log(err);
+              reject(err);
+            },
+            () => {
+              getDownloadURL(uploadTask.snapshot.ref)
+                .then((url) => {
+                  uploadedPictures.push(url);
+                  console.log(url);
+                  resolve();
+                })
+                .catch((err) => {
+                  console.log(err);
+                  reject(err);
+                });
+            }
+          );
+        });
+      });
+  
+      Promise.all(uploadTasks)
+        .then(() => {
+          console.log("uploaded pictures ",uploadedPictures);
+          const updatedFormData = { ...formData, pictures: uploadedPictures };
+          setFormData(updatedFormData);
+          console.log(formData.pictures);
+          resolve(uploadedPictures);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+  const handleFormSubmit = async (event : any) => {
+    event.preventDefault();
+  
+    try {
+      console.log("in function");
+      const uploadedPictures = await handleUpload(formData); // Wait for handleUpload to complete and get the updated pictures array
+  
+      const updatedFormData = { ...formData, pictures: uploadedPictures }; // Update the formData with the new pictures array
+      setFormData(updatedFormData); // Update the state with the new formData
+  
+      console.log(updatedFormData.pictures);
+      const result = await axios.post(
+        "http://localhost:4000/createAd",
+        updatedFormData
+      );
+      console.log("after request completed");
+      // Request successful, handle success (e.g., display a success message or redirect the user)
+    } catch (error) {
+      // Request failed, handle error (e.g., display an error message or handle the error in an appropriate manner)
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log("Updated formData.pictures:", formData.pictures);
+  // }, [formData]);
+
 
   return (
     <main>
@@ -54,9 +145,34 @@ export function NewAddForm() {
         Publishing an advertisement for your pet
       </h1>
       <p className="font-bold mb-4">Upload Your pictures</p>
-      <div className="max-w-fit border-[3px] bg-white border-black p-2 mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
+
+      <input type="file" onChange={handleChange} accept="image/*" multiple />
+      {/* <button onClick={handleUpload}>Upload to Firebase</button> */}
+      <p>{percent} "% done"</p>
+
+      {/*  */}
+      {/* <div className="max-w-fit border-[3px] bg-white border-black p-2 mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
         <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
+      </div> */}
+      <div className="max-w-fit border-[3px] bg-white border-black p-2 mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
+        {files.length === 0 ? (
+          <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
+        ) : (
+          <div className="flex gap-7 items-center justify-between flex-col sm:flex-row max-w-2xl">
+            {files.map((file, index) => (
+              <div key={index}>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={`pic-${index}`}
+                  className="block border-[3px] border-black w-52 h-52 object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
       </div>
+
 
       <form
         className="my-10 flex flex-col md:flex-row gap-40 font-semibold filter-active w-fit"

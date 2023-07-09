@@ -8,7 +8,11 @@ const adSchema = new mongoose.Schema({
     },
     animalName: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: (value) => value.trim().length > 0,
+            message: 'Animal name cannot be empty'
+        }
     },
     type: {
         type: String,
@@ -32,7 +36,7 @@ const adSchema = new mongoose.Schema({
     },
     pictures: {
         type: [String],
-        // required: true
+        required: true
     },
     date: {
         type: Date,

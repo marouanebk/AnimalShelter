@@ -6,15 +6,24 @@ const User = require('../models/userModel')
 
 
 exports.createAd = async (req, res, next) => {
-    console.log("in ad");
-    try {
-        const ad = new Ad(req.body);
-        await ad.save();
-        return res.status(200).send({ success: true })
-    } catch (err) {
-        res.status(500).json({ message: 'An error occurred', err });
-    }
-}
+  try {
+      const ad = new Ad(req.body);
+      await ad.validate(); // Run the validation explicitly to trigger the validation error
+
+      await ad.save();
+      return res.status(200).send({ success: true });
+  } catch (err) {
+      if (err.name === 'ValidationError') {
+          // Handle the validation error with custom error message
+          const errorMessages = Object.values(err.errors).map(error => error.message);
+          return res.status(400).json({ success: false, errors: errorMessages });
+      }
+
+      res.status(500).json({ success: false, message: 'An error occurred', err });
+  }
+};
+
+
 
 
 
