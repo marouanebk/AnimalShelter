@@ -10,6 +10,7 @@ Router.post('/login', userController.login);
 Router.post('/register', userController.register);
 
 Router.get('/:id', userController.getUserById);
+Router.put('/:id', userController.updateUser);
 
 module.exports = Router;
 // module.exports = router;

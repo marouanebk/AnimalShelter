@@ -30,8 +30,27 @@ async function getById(id) {
     return user.toJSON()
 }
 
-module.exports = {
+async function updateUser(id, updatedFields) {
+    const { email } = updatedFields;
+    const existingUser = await User.findOne({ email });
+  
+    if (existingUser && existingUser._id.toString() !== id) {
+      throw new Error('Email is already in use');
+    }
+  
+    const user = await User.findByIdAndUpdate(id, updatedFields, { new: true });
+  
+    if (user) {
+      return user.toJSON();
+    } else {
+      return null;
+    }
+  }
+  
+  module.exports = {
     login,
     register,
-    getById
-};
+    getById,
+    updateUser
+  };
+  

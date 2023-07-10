@@ -37,3 +37,26 @@ exports.getUserById = (req, res, next) => {
         })
         .catch(err => next(err));
 };
+
+
+exports.updateUser = (req, res, next) => {
+    const { id } = req.params;
+    const { email, first_name, last_name, location, phone_number } = req.body;
+  
+    userServices.updateUser(id, { email, first_name, last_name, location, phone_number })
+      .then((updatedUser) => {
+        if (updatedUser) {
+          res.status(200).json(updatedUser); // Status code 200: OK
+        } else {
+          res.status(404).json({ error: 'User not found' }); // Status code 404: Not Found
+        }
+      })
+      .catch(err => {
+        if (err.message === 'Email is already in use') {
+          res.status(400).json({ error: err.message }); // Status code 400: Bad Request
+        } else {
+          next(err);
+        }
+      });
+  };
+  
