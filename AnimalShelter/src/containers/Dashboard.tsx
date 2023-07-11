@@ -89,6 +89,8 @@ export function Dashboard() {
                 type={add.type}
                 id={add._id}
                 date={add.date}
+              isFavorite = {true}
+
               />
             ))}
           </div>
@@ -109,6 +111,7 @@ export function Dashboard() {
                 type={add.type}
                 id={add._id}
                 date={add.date}
+                isFavorite = {add.isFavorite}
               />
             ))}
             <NewAdd />

@@ -20,6 +20,8 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
+    navigate(`/ads?location=${searchQuery}`);
+
   };
 
   // function that toggles the category filter styling

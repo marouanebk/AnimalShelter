@@ -1,14 +1,17 @@
 import { Card } from "./Card";
 import { addsData } from "../data/AddsData";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState , useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 type AddsProps = {
   filterState: string;
 };
 
 export function Adds({ filterState }: AddsProps) {
+  const { currentUser }: any = useContext(AuthContext);
+
   type Ad = {
     _id: number;
     type: string;
@@ -42,6 +45,10 @@ export function Adds({ filterState }: AddsProps) {
       if (searchQuery) {
         apiUrl += `&location=${searchQuery}`;
       }
+      
+      if (currentUser.id != null) {
+        apiUrl += `?userId=${currentUser.id}`;
+      }
 
       const res = await axios.get(apiUrl);
       const result = await res.data["ads"];
@@ -71,7 +78,7 @@ export function Adds({ filterState }: AddsProps) {
             pictures={ad.pictures}
             id={ad._id}
             date={ad.date}
-            isFavorited={ad.isFavorite}
+            isFavorite={ad.isFavorite}
           />
         ))}
       </div>

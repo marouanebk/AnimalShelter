@@ -12,6 +12,8 @@ const useUserAds = (userId: string) => {
     owner: {
       location: string;
     }
+    isFavorite : boolean;
+    
   };
 
   const [userAds, setUserAds] = useState<Ad[]>([]);

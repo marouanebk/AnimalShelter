@@ -60,8 +60,10 @@ exports.getAdById = async (req, res, next) => {
 
 
 exports.getAdsByType = async (req, res, next) => {
-  const { type, location } = req.query;
-  const { userId } = req.body;
+  const { type, location ,userId } = req.query;
+  // const { userId } = req.body.userId;
+
+  console.log(userId)
 
   try {
     let ads;

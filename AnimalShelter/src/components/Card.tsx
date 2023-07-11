@@ -12,13 +12,19 @@ type CardProps = {
   location: string;
   type: string;
   date: string;
-  isFavorited: boolean;
+  isFavorite: boolean;
 };
 
-export function Card({ pictures, location, type, id, date }: CardProps) {
+export function Card({
+  pictures,
+  location,
+  type,
+  id,
+  date,
+  isFavorite,
+}: CardProps) {
   const { currentUser }: any = useContext(AuthContext);
-
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(isFavorite);
 
   const handleFavoriteClick = async () => {
     const userId = currentUser.id;
@@ -29,8 +35,8 @@ export function Card({ pictures, location, type, id, date }: CardProps) {
           userId,
           adId: id,
         });
-        if (res.status === 201) {
-          setIsFavorite(true);
+        if (res.status === 200 || res.status === 201) {
+          setFavorite(!favorite);
         }
       } catch (error) {
         console.log(error);
@@ -67,7 +73,7 @@ export function Card({ pictures, location, type, id, date }: CardProps) {
       <div className="flex justify-between">
         <FaHeart
           onClick={handleFavoriteClick}
-          style={{ color: isFavorite ? "red" : "black", cursor: "pointer" }}
+          style={{ color: favorite ? "red" : "black", cursor: "pointer" }}
         />
         <p className="text-sm text-lightGray">
           {new Date(date).toLocaleDateString("en-US")}
