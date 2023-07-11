@@ -13,20 +13,22 @@ const useUserFavorites = (userId: string) => {
       location: string;
     }
   };
-
   const [userFavorites, setuserFavorites] = useState<Ad[]>([]);
 
 
   const fetchFavorites = async () => {
     try {
       const response = await axios.get(`http://localhost:4000/favorites/${userId}`);
-
+      console.log("favorites", response.data.favorites);
+    
       if (response && response.status === 200 && response.data) {
-        setuserFavorites(response.data["favorites"]);
+        const adIds = response.data.favorites.map((favorite : any) => favorite.adId);
+        setuserFavorites(adIds);
       }
     } catch (error) {
       console.error("Error fetching user ads:", error);
     }
+    
   };
 
   useEffect(() => {

@@ -2,10 +2,15 @@ import { useParams } from "react-router";
 // import { addsData } from "../data/AddsData";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 export function Details() {
+  const { currentUser }: any = useContext(AuthContext);
+
+
+
   const { id } = useParams();
 
   type Ad = {
@@ -25,28 +30,45 @@ export function Details() {
       email: string;
       id: string;
       location: string;
-      number: string;
+      phone_number: string;
     };
   };
 
   const [details, setDetails] = useState<Ad | null>(null);
-  // const addDetails = addsData.find((item) => item.id == +id!)!;
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const getAds = async () => {
+  const getAd = async () => {
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 5000));
 
       const res = await axios.get(`http://localhost:4000/ads/${id}`);
-      const result = await res.data["ad"];
-      setDetails(result);
-      console.log(result, "RESULT");
+      const result = await res.data;
+      setDetails(result.ad);
+      setIsFavorite(result.isFavorite);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleFavoriteClick = async () => {
+    try {
+      const res = await axios.post(`http://localhost:4000/favorites`, {
+        userId: currentUser.id,
+        adId: id
+      });
+      if (res.status === 200 || res.status === 201) {
+        setIsFavorite(!isFavorite);
+      }
+
+
+    } catch (error) {
+      console.log(error);
+    }
+    // setIsFavorite(!isFavorite);
+  };
+
+
   useEffect(() => {
-    getAds();
+    getAd();
   }, []);
 
   if (!details) {
@@ -85,10 +107,14 @@ export function Details() {
           <span className="font-bold me-2">
             you can save this add in your favorites:
           </span>
-          <button className="font-bold px-3 py-2 bg-redish  ">
+          <button className="font-bold px-3 py-2 bg-redish" onClick={handleFavoriteClick}
+          >
             <p className="text-lg flex gap-2">
               <span>Favorite</span>
-              <FaHeart className="inline text-xl my-auto " />
+              <FaHeart
+                className={`inline text-xl my-auto ${isFavorite ? "text-black" : "text-white"
+                  }`}
+              />
             </p>
           </button>
         </div>
@@ -194,7 +220,7 @@ export function Details() {
                       >
                         Number
                       </th>
-                      <td className="px-6 py-4">{details.owner.number}</td>
+                      <td className="px-6 py-4">{details.owner.phone_number}</td>
                     </tr>
                   </tbody>
                 </table>

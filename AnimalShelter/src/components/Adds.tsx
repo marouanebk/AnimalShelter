@@ -18,6 +18,7 @@ export function Adds({ filterState }: AddsProps) {
     owner: {
       location: string;
     }
+    isFavorite: boolean;
   };
 
   const [ads, setAds] = useState<Ad[]>([]);
@@ -41,10 +42,10 @@ export function Adds({ filterState }: AddsProps) {
       if (searchQuery) {
         apiUrl += `&location=${searchQuery}`;
       }
-      console.log(apiUrl);
 
       const res = await axios.get(apiUrl);
       const result = await res.data["ads"];
+      console.log(result);
       setAds(result);
     } catch (error) {
       console.log(error);
@@ -70,6 +71,7 @@ export function Adds({ filterState }: AddsProps) {
             pictures={ad.pictures}
             id={ad._id}
             date={ad.date}
+            isFavorited={ad.isFavorite}
           />
         ))}
       </div>

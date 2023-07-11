@@ -26,7 +26,7 @@ export function Dashboard() {
     setIsEditMode(true);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e : any) => {
     const { name, value } = e.target;
     setEditedUserInfo((prev) => ({
       ...prev,
