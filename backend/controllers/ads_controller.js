@@ -8,25 +8,21 @@ const Favorite = require('../models/favorites');
 
 exports.createAd = async (req, res, next) => {
   try {
-      const ad = new Ad(req.body);
-      await ad.validate(); // Run the validation explicitly to trigger the validation error
+    const ad = new Ad(req.body);
+    await ad.validate(); // Run the validation explicitly to trigger the validation error
 
-      await ad.save();
-      return res.status(200).send({ success: true });
+    await ad.save();
+    return res.status(200).send({ success: true });
   } catch (err) {
-      if (err.name === 'ValidationError') {
-          // Handle the validation error with custom error message
-          const errorMessages = Object.values(err.errors).map(error => error.message);
-          return res.status(400).json({ success: false, errors: errorMessages });
-      }
+    if (err.name === 'ValidationError') {
+      // Handle the validation error with custom error message
+      const errorMessages = Object.values(err.errors).map(error => error.message);
+      return res.status(400).json({ success: false, errors: errorMessages });
+    }
 
-      res.status(500).json({ success: false, message: 'An error occurred', err });
+    res.status(500).json({ success: false, message: 'An error occurred', err });
   }
 };
-
-
-
-
 
 exports.getAdById = async (req, res, next) => {
   const { id } = req.params;
@@ -38,7 +34,7 @@ exports.getAdById = async (req, res, next) => {
         path: 'owner',
         // select: 'location',
       })
-      // .select('animalName type userID');
+    // .select('animalName type userID');
 
     if (!ad) {
       return res.status(404).json({ message: 'Ad not found' });
@@ -56,73 +52,19 @@ exports.getAdById = async (req, res, next) => {
     next(error); // Pass the error to the error handling middleware
   }
 };
-
-
-
-exports.getAdsByType = async (req, res, next) => {
-  const { type, location ,userId } = req.query;
-  // const { userId } = req.body.userId;
-
-  console.log(userId)
-
+exports.getAdsByDate = async (req, res, next) => {
   try {
-    let ads;
-    const query = {};
-
-    if (type) {
-      query.type = type;
-    }
-
-    if (location) {
-      query['location'] = { $regex: location, $options: 'i' };
-    }
-
-    if (Object.keys(query).length > 0) {
-      ads = await Ad.find(query).sort({ date: -1 }).populate({
+    const ads = await Ad.find()
+      .sort({ date: -1 })
+      .populate({
         path: 'owner',
-      });
-    } else {
-      ads = await Ad.find().sort({ date: -1 }).populate({
-        path: 'owner',
-      });
-    }
-
-    // Fetch favorites for the user if authenticated
-    let favorites = {};
-    if (userId) {
-      const userFavorites = await Favorite.find({ userId }).select('adId');
-      favorites = userFavorites.reduce((acc, favorite) => {
-        acc[favorite.adId.toString()] = true;
-        return acc;
-      }, {});
-    }
-
-    // Add isFavorite field to each ad
-    const adsWithFavorites = ads.map((ad) => ({
-      ...ad.toObject(),
-      isFavorite: favorites[ad._id.toString()] || false,
-    }));
-
-    res.status(200).json({ ads: adsWithFavorites });
+        // select: 'location',
+      })
+      .select('animalName type owner pictures');
+    res.status(200).json({ ads });
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
-};
-
-
-exports.getAdsByDate = async (req, res, next) => {
-    try {
-        const ads = await Ad.find()
-            .sort({ date: -1 })
-            .populate({
-                path: 'owner',
-                // select: 'location',
-            })
-            .select('animalName type owner pictures');
-        res.status(200).json({ ads });
-    } catch (error) {
-        next(error); // Pass the error to the error handling middleware
-    }
 };
 
 
@@ -153,3 +95,83 @@ exports.getAdsByUserId = async (req, res, next) => {
     next(error); // Pass the error to the error handling middleware
   }
 };
+
+
+exports.getAdsByType = async (req, res, next) => {
+  const { type, location, userId } = req.query;
+
+  console.log(location);
+
+  try {
+    let users;
+    const userQuery = {};
+
+    if (location) {
+      userQuery.location = { $regex: new RegExp(location, 'i') };
+    }
+
+    if (Object.keys(userQuery).length > 0) {
+      // users = await User.find({ location: location }).select('_id');
+       users = await User.find(userQuery).select('_id');
+      
+      console.log(users);
+    } else {
+      users = await User.find().select('_id');
+    }
+
+    const userIds = users.map((user) => user._id);
+
+    let ads;
+    const adQuery = {};
+
+    if (type) {
+      adQuery.type = type;
+    }
+
+    if (userIds.length > 0) {
+      adQuery.owner = { $in: userIds };
+    } else {
+      res.status(200).json({ ads: [] }); // Return empty ads array
+      return;
+    }
+    
+    if (Object.keys(adQuery).length > 0) {
+      ads = await Ad.find(adQuery)
+        .sort({ date: -1 })
+        .populate({
+          path: 'owner',
+          select: 'location',
+        });
+    } else {
+      ads = await Ad.find()
+        .sort({ date: -1 })
+        .populate({
+          path: 'owner',
+          select: 'location',
+        });
+    }
+
+    // Fetch favorites for the user if authenticated
+
+    console.log(ads);
+    let favorites = {};
+    if (userId) {
+      const userFavorites = await Favorite.find({ userId }).select('adId');
+      favorites = userFavorites.reduce((acc, favorite) => {
+        acc[favorite.adId.toString()] = true;
+        return acc;
+      }, {});
+    }
+
+    // Add isFavorite field to each ad
+    const adsWithFavorites = ads.map((ad) => ({
+      ...ad.toObject(),
+      isFavorite: favorites[ad._id.toString()] || false,
+    }));
+
+    res.status(200).json({ ads: adsWithFavorites });
+  } catch (error) {
+    next(error); // Pass the error to the error handling middleware
+  }
+};
+

@@ -7,6 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 
 type AddsProps = {
   filterState: string;
+  searchQuery:string;
 };
 
 export function Adds({ filterState }: AddsProps) {
@@ -38,17 +39,20 @@ export function Adds({ filterState }: AddsProps) {
       const searchQuery = searchParams.get("location");
 
       let apiUrl = "http://localhost:4000/ads";
+      if (currentUser.id != null) {
+        apiUrl += `?userId=${currentUser.id}`;
+      }
       if (filterState) {
-        apiUrl += `?type=${filterState}`;
+        apiUrl += `&type=${filterState}`;
       }
 
       if (searchQuery) {
         apiUrl += `&location=${searchQuery}`;
+        console.log("seaaaaaaaaaaaach queryyyyyyy");
       }
       
-      if (currentUser.id != null) {
-        apiUrl += `?userId=${currentUser.id}`;
-      }
+
+      console.log("apiUrl: " + apiUrl);
 
       const res = await axios.get(apiUrl);
       const result = await res.data["ads"];

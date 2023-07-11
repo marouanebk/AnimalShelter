@@ -10,8 +10,8 @@ type FilterProps = {
   setSearchQuery: (s: string) => void;
 };
 
-export function Filter({ setFilterState, filterState }: FilterProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+export function Filter({ setFilterState, filterState, setSearchQuery }: FilterProps) {
+  const [searchQuery, setSearchQueryInternal] = useState("");
   const navigate = useNavigate();
 
   const catRef = useRef<HTMLDivElement>(null);
@@ -19,9 +19,12 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
   const otherRef = useRef<HTMLDivElement>(null);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-    navigate(`/ads?location=${searchQuery}`);
+    setSearchQueryInternal(e.target.value);
+  };
 
+  const handleSearchClick = () => {
+    setSearchQuery(searchQuery);
+    navigate(`/ads?location=${searchQuery}`);
   };
 
   // function that toggles the category filter styling
@@ -32,22 +35,30 @@ export function Filter({ setFilterState, filterState }: FilterProps) {
 
     if (filterState === category) {
       setFilterState("");
-      navigate(`/ads`);
+      navigate(`/ads?location=${searchQuery}`);
     } else {
       setFilterState(category);
-      navigate(`/ads?type=${category}`);
+      navigate(`/ads?type=${category}&location=${searchQuery}`);
     }
   }
 
   return (
     <main className="mb-10">
-      <input
-        className="px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  w-full md:w-[350px] focus:outline-none font-bold  caret-grayish shadow-strong"
-        type="text"
-        placeholder="Search By Location"
-        value={searchQuery}
-        onChange={handleSearch}
-      />
+      <div className="flex items-center justify-between mb-4">
+        <input
+          className="px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  w-full md:w-[350px] focus:outline-none font-bold  caret-grayish shadow-strong"
+          type="text"
+          placeholder="Search By Location"
+          value={searchQuery}
+          onChange={handleSearch}
+        />
+        <button
+          className="border-2 border-black bg-blueish font-bold py-1 px-4"
+          onClick={handleSearchClick}
+        >
+          Search
+        </button>
+      </div>
       <div className="my-6">
         <div className="my-5">
           <h1 className="text-lg font-bold">What are you looking for?</h1>
