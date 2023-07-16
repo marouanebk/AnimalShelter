@@ -15,6 +15,8 @@ exports.createAd = async (req, res, next) => {
     return res.status(200).send({ success: true });
   } catch (err) {
     if (err.name === 'ValidationError') {
+      console.log(err);
+      console.log("err.message");
       // Handle the validation error with custom error message
       const errorMessages = Object.values(err.errors).map(error => error.message);
       return res.status(400).json({ success: false, errors: errorMessages });

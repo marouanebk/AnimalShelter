@@ -21,7 +21,7 @@ export function NewAddForm() {
   }>({
     owner: currentUser.id,
     animalName: "",
-    type: "",
+    type: "cat",
     race: "",
     vaccinated: true,
     healthCondition: "",
@@ -46,7 +46,8 @@ export function NewAddForm() {
     setFiles(selectedFiles);
   }
 
-  // Handles input change event and updates state
+  const [uploadedPictures, setUploadedPictures] = useState([]);
+
   function handleUpload(formData) {
     return new Promise((resolve, reject) => {
       if (!files.length) {
@@ -55,9 +56,7 @@ export function NewAddForm() {
         return;
       }
 
-      const uploadedPictures = [];
-
-      const uploadTasks = files.map((file) => {
+      const uploadTasks = files.map((file, index) => {
         const storageRef = ref(storage, `/files/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -78,8 +77,12 @@ export function NewAddForm() {
             () => {
               getDownloadURL(uploadTask.snapshot.ref)
                 .then((url) => {
-                  uploadedPictures.push(url);
+                  setUploadedPictures((prevUploadedPictures) => [
+                    ...prevUploadedPictures,
+                    url
+                  ]);
                   console.log(url);
+                  setPercent(0);
                   resolve();
                 })
                 .catch((err) => {
@@ -105,31 +108,25 @@ export function NewAddForm() {
         });
     });
   }
+
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
 
     try {
-      console.log("in function");
       const uploadedPictures = await handleUpload(formData); // Wait for handleUpload to complete and get the updated pictures array
 
       const updatedFormData = { ...formData, pictures: uploadedPictures }; // Update the formData with the new pictures array
       setFormData(updatedFormData); // Update the state with the new formData
 
-      console.log(updatedFormData.pictures);
       const result = await axios.post(
         "http://localhost:4000/createAd",
         updatedFormData
       );
-      console.log("after request completed");
-      // Request successful, handle success (e.g., display a success message or redirect the user)
     } catch (error) {
-      // Request failed, handle error (e.g., display an error message or handle the error in an appropriate manner)
+      console.log(error);
     }
   };
 
-  // useEffect(() => {
-  //   console.log("Updated formData.pictures:", formData.pictures);
-  // }, [formData]);
 
   return (
     <main>
@@ -138,12 +135,9 @@ export function NewAddForm() {
       </h1>
       <p className="font-bold mb-4">Upload Your pictures</p>
 
-      <p>{percent} "% done"</p>
-
-      {/*  */}
-      {/* <div className="max-w-fit border-[3px] bg-white border-black p-2 mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
-        <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
-      </div> */}
+      <p>
+        {percent} "% done" - {uploadedPictures.length}/{files.length} uploaded
+      </p>
       <div className="max-w-fit border-[3px] bg-white border-black mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
         {files.length === 0 ? (
           <>
