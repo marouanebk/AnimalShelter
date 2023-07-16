@@ -2,13 +2,13 @@ import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import storage from "../firebaseconfig";
 
 export function NewAddForm() {
   const { currentUser }: any = useContext(AuthContext);
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<{
     owner: any;
     animalName: string;
@@ -40,6 +40,10 @@ export function NewAddForm() {
   };
   const [files, setFiles] = useState([]);
   const [percent, setPercent] = useState(0);
+
+  // if (percent == 100) {
+  //   Navigate({ to: ".." });
+  // }
 
   function handleChange(event: any) {
     const selectedFiles = Array.from(event.target.files);
@@ -79,7 +83,7 @@ export function NewAddForm() {
                 .then((url) => {
                   setUploadedPictures((prevUploadedPictures) => [
                     ...prevUploadedPictures,
-                    url
+                    url,
                   ]);
                   console.log(url);
                   setPercent(0);
@@ -122,11 +126,11 @@ export function NewAddForm() {
         "http://localhost:4000/createAd",
         updatedFormData
       );
+      navigate("/user");
     } catch (error) {
       console.log(error);
     }
   };
-
 
   return (
     <main>
@@ -232,7 +236,7 @@ export function NewAddForm() {
               <div>
                 <label htmlFor="age">Enter your pet's Age</label>
                 <input
-                  type="text"
+                  type="number"
                   name="age"
                   placeholder="Age in years"
                   className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm mt-3"
