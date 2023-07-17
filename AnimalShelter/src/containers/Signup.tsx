@@ -40,6 +40,7 @@ export function Signup() {
 
     if (password !== confirmPassword) {
       console.error("Password confirmation does not match.");
+      setWrongAuth(true);
       return;
     }
 
@@ -72,7 +73,6 @@ export function Signup() {
 
       //
     } catch (error) {
-      setWrongAuth(true);
       console.error("Signup error:", error);
     }
   };
@@ -144,7 +144,9 @@ export function Signup() {
                 required
                 ref={confirmPasswordRef}
               />
-              <p className="text-red-700 my-2 ">password desn't match</p>
+              {wrongAuth && (
+                <p className="text-red-700 my-2 ">Please check your password</p>
+              )}
               <input
                 type="checkbox"
                 className="me-3"
