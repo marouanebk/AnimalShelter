@@ -47,7 +47,7 @@ export function Login() {
 
         // navigate("/");
       } else if (response.status === 401) {
-        setWrongAuth(true);
+        setWrongAuth(true)
       }
       // dispatch({ type: 'LOGIN', payload: { email: email } })
     } catch (error) {
