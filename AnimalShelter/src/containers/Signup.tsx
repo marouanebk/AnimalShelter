@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import axios from "axios";
-import { AuthContext } from '../context/AuthContext';
-
+import { AuthContext } from "../context/AuthContext";
 
 export function Signup() {
-  const { dispatch }: any = useContext(AuthContext)
-
+  const { dispatch }: any = useContext(AuthContext);
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -15,6 +13,7 @@ export function Signup() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
+  const [wrongAuth, setWrongAuth] = useState(false);
 
   const togglePassword = () => {
     const inputElement1 = passwordRef.current;
@@ -57,8 +56,14 @@ export function Signup() {
 
       console.log("Signup success:", response.data);
       if (response.status === 200) {
-        // console.log(response.data)
-        dispatch({ type: 'LOGIN', payload: { email: email, token: response.data.token, id: response.data.id } })
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            email: email,
+            token: response.data.token,
+            id: response.data.id,
+          },
+        });
 
         // navigate("/");
       }
@@ -67,6 +72,7 @@ export function Signup() {
 
       //
     } catch (error) {
+      setWrongAuth(true);
       console.error("Signup error:", error);
     }
   };
@@ -138,6 +144,7 @@ export function Signup() {
                 required
                 ref={confirmPasswordRef}
               />
+              <p className="text-red-700 my-2 ">password desn't match</p>
               <input
                 type="checkbox"
                 className="me-3"
