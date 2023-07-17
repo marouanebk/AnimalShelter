@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import bg from "../assets/bg.jpg";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-
 
 export function Login() {
   const { dispatch }: any = useContext(AuthContext);
@@ -11,6 +10,8 @@ export function Login() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
+
+  const [wrongAuth, setWrongAuth] = useState(false);
 
   const togglePassword = () => {
     const inputElement = passwordRef.current;
@@ -35,6 +36,7 @@ export function Login() {
       });
       console.log("Login success:", response.status);
       if (response.status === 200) {
+        setWrongAuth(false);
         dispatch({
           type: "LOGIN",
           payload: {
@@ -48,6 +50,7 @@ export function Login() {
       }
       // dispatch({ type: 'LOGIN', payload: { email: email } })
     } catch (error) {
+      setWrongAuth(true);
       console.error("Login error:", error);
     }
   };
@@ -96,6 +99,9 @@ export function Login() {
             >
               Login
             </button>
+            {wrongAuth && (
+              <p className="text-red-700 mt-2 ">Email or password incorrect</p>
+            )}
           </div>
         </form>
         <p className="my-2 text-sm">
