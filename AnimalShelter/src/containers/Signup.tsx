@@ -80,10 +80,11 @@ export function Signup() {
             password,
           }
         );
+        console.log(response.status)
         if (response.status === 200) {
+          setStep(2);
           setWrongAuth(false)
 
-          setStep(2);
         } else {
           setWrongAuth(true)
           setAuthMessage(response.data.message)
@@ -207,7 +208,7 @@ export function Signup() {
                     />
                     {wrongAuth && (
                       <p className="text-red-700 my-2 ">
-                        Please check your password
+                        {authMessage}
                       </p>
                     )}
                     <input

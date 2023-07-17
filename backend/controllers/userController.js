@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
 
   try {
     const data = await userServices.register(req.body);
-    res.status(201).json({ success: true, email: data.email, token: data.token, id: data.id }); // Status code 201: Created
+    res.status(200).json({ success: true, email: data.email, token: data.token, id: data.id }); // Status code 201: Created
   } catch (error) {
     if (error.message === 'Email already exists. Please choose a different email.') {
       res.status(409).json({ success: false, message: 'Email already in use. Please choose a different email.' }); // Status code 409: Conflict
