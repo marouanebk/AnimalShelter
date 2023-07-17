@@ -39,7 +39,7 @@ export function Adds({ filterState }: AddsProps) {
       const searchQuery = searchParams.get("location");
 
       let apiUrl = "http://localhost:4000/ads";
-      if (currentUser.id != null) {
+      if (currentUser != null) {
         apiUrl += `?userId=${currentUser.id}`;
       }
       if (filterState) {

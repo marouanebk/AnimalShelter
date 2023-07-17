@@ -40,13 +40,14 @@ export function Login() {
         dispatch({
           type: "LOGIN",
           payload: {
-            email: email,
             token: response.data.token,
             id: response.data.id,
           },
         });
 
         // navigate("/");
+      } else if (response.status === 401) {
+        setWrongAuth(true)
       }
       // dispatch({ type: 'LOGIN', payload: { email: email } })
     } catch (error) {

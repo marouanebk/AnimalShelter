@@ -15,11 +15,7 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
     },
-    phone_number: {
-        type: String,
-        // required: true,
-        unique: true,
-    },
+
     password: {
         type: String,
         required: true,
@@ -27,6 +23,12 @@ const UserSchema = new Schema({
     location: {
         type:String,
         required : false
+    },
+    phone_number: {
+        type:String,
+        required: false,
+        unique: true,
+        sparse: true
     }
 });
 

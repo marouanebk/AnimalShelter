@@ -11,13 +11,18 @@ export function Signup() {
   // refs
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState<string | undefined>(undefined);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
-  const checkboxRef = useRef<HTMLInputElement>(null);
-  const [wrongAuth, setWrongAuth] = useState(false);
+  const [location, setlocation] = useState("");
+  const [phone_number, setPhone_number] = useState("");
 
-  const [step, setStep] = useState(2);
+  const checkboxRef = useRef<HTMLInputElement>(null);
+
+  const [wrongAuth, setWrongAuth] = useState(false);
+  const [authMessage, setAuthMessage] = useState("");
+
+  const [step, setStep] = useState(1);
 
   // function to handle click
   // const handleNext = () => {
@@ -51,9 +56,11 @@ export function Signup() {
 
     const first_name = firstNameRef.current?.value;
     const last_name = lastNameRef.current?.value;
-    const email = emailRef.current?.value;
+
     const password = passwordRef.current?.value;
     const confirmPassword = confirmPasswordRef.current?.value;
+    // const phone_number = phoneNumberRef.current?.value;
+    // const location = locationRef.current?.value;
 
     if (password !== confirmPassword) {
       console.error("Password confirmation does not match.");
@@ -61,40 +68,63 @@ export function Signup() {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/users/register",
-        {
-          first_name,
-          last_name,
-          email,
-          password,
+    if (step == 1) {
+      try {
+        console.log("Step 1");
+        const response = await axios.post(
+          "http://localhost:4000/users/register",
+          {
+            first_name,
+            last_name,
+            email,
+            password,
+          }
+        );
+        if (response.status === 200) {
+          setWrongAuth(false)
+
+          setStep(2);
+        } else {
+          setWrongAuth(true)
+          setAuthMessage(response.data.message)
+
         }
-      );
+      }
+      catch (error) {
+        console.log(error);
+      }
+    } else if (step == 2) {
+      try {
+        console.log(email);
+        const response = await axios.post(
+          "http://localhost:4000/users/register_infos",
+          {
+            email,
+            location,
+            phone_number,
 
-      console.log("Signup success:", response.data);
-
-      if (response.status === 200) {
-        if (step == 2) {
+          }
+        );
+        if (response.status === 200) {
           dispatch({
             type: "LOGIN",
             payload: {
-              email: email,
+              // email: email,
               token: response.data.token,
               id: response.data.id,
             },
           });
-          return;
+        } else {
+          setWrongAuth(true)
+          setAuthMessage(response.data.message)
         }
-      }
-      if (response.status === 200) {
-        setStep(2);
-      }
-    } catch (error) {
-      console.error("Signup error:", error);
-    }
-  };
 
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+  }
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
       <div className="filter-active--secondary">
@@ -145,7 +175,9 @@ export function Signup() {
                       placeholder="Email"
                       className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                       required
-                      ref={emailRef}
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email !== undefined ? email : ''}
+
                     />
                   </div>
                   <div>
@@ -209,8 +241,12 @@ export function Signup() {
                     <label htmlFor="">Enter Your Location</label>
                     <input
                       type="text"
+                      id="location"
                       placeholder="Location"
                       className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      onChange={(e) => setlocation(e.target.value)}
+                      value={location}
+
                     />
                   </div>
                   <div>
@@ -219,6 +255,9 @@ export function Signup() {
                       type="number"
                       placeholder="Number"
                       className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      value={phone_number}
+                      onChange={(e) => setPhone_number(e.target.value)}
+
                     />
                   </div>
                 </div>

@@ -1,17 +1,26 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const userServices = require('../services/UserServices.js');
+const User = require('../models/userModel')
 
-exports.register = (req, res, next) => {
-    const { password } = req.body;
-    const salt = bcrypt.genSaltSync(10);
-    req.body.password = bcrypt.hashSync(password, salt);
 
-    userServices.register(req.body)
-        .then(data => res.status(200).json({ success: true, email: data.email, token: data.token , id : data.id})) // Status code 201: Created
-        .catch(err => next(err));
+exports.register = async (req, res) => {
+  const { password } = req.body;
+  const salt = bcrypt.genSaltSync(10);
+  req.body.password = bcrypt.hashSync(password, salt);
+
+  try {
+    const data = await userServices.register(req.body);
+    res.status(201).json({ success: true, email: data.email, token: data.token, id: data.id }); // Status code 201: Created
+  } catch (error) {
+    if (error.message === 'Email already exists. Please choose a different email.') {
+      res.status(409).json({ success: false, message: 'Email already in use. Please choose a different email.' }); // Status code 409: Conflict
+    } else {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Internal server error.' }); // Status code 500: Internal Server Error
+    }
+  }
 };
-
 
 exports.login = (req, res, next) => {
     const { email, password } = req.body;
@@ -59,4 +68,21 @@ exports.updateUser = (req, res, next) => {
         }
       });
   };
+
+  exports.addUserInfos = async (req, res) => {
+    const { location, phone_number, email } = req.body;
   
+    try {
+      const result = await userServices.addUserInfos(location, phone_number, email);
+      res.status(200).json(result);
+    } catch (error) {
+      if (error.message === 'User not found.') {
+        res.status(404).json({ success: false, message: 'User not found.' }); // Status code 404: Not Found
+      } else if (error.message === 'Phone number already in use.') {
+        res.status(409).json({ success: false, message: 'Phone number already in use. Please choose a different phone number.' }); // Status code 409: Conflict
+      } else {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error.' }); // Status code 500: Internal Server Error
+      }
+    }
+  };

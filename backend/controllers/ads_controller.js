@@ -102,7 +102,6 @@ exports.getAdsByUserId = async (req, res, next) => {
 exports.getAdsByType = async (req, res, next) => {
   const { type, location, userId } = req.query;
 
-  console.log(location);
 
   try {
     let users;
@@ -155,7 +154,6 @@ exports.getAdsByType = async (req, res, next) => {
 
     // Fetch favorites for the user if authenticated
 
-    console.log(ads);
     let favorites = {};
     if (userId) {
       const userFavorites = await Favorite.find({ userId }).select('adId');
