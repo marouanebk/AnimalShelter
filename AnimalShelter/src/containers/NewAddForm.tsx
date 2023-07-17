@@ -9,6 +9,7 @@ import storage from "../firebaseconfig";
 export function NewAddForm() {
   const { currentUser }: any = useContext(AuthContext);
   const navigate = useNavigate();
+  const [popped, setPopped] = useState(false);
   const [formData, setFormData] = useState<{
     owner: any;
     animalName: string;
@@ -126,6 +127,7 @@ export function NewAddForm() {
         "http://localhost:4000/createAd",
         updatedFormData
       );
+      alert("Add has been published");
       navigate("/user");
     } catch (error) {
       console.log(error);
@@ -273,6 +275,9 @@ export function NewAddForm() {
           </div>
         </div>
       </form>
+      {/* {popped && <article className="popup">
+              <h2>Add Has been added!</h2>
+      </article>} */}
     </main>
   );
 }
