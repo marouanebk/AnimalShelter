@@ -3,10 +3,12 @@ import bg from "../assets/bg.jpg";
 import { useRef, useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function Signup() {
   const { dispatch }: any = useContext(AuthContext);
 
+  // refs
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -15,9 +17,24 @@ export function Signup() {
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [wrongAuth, setWrongAuth] = useState(false);
 
+  const [step, setStep] = useState(2);
+
+  // function to handle click
+  // const handleNext = () => {
+  //   const first_name = firstNameRef.current?.value;
+  //   const last_name = lastNameRef.current?.value;
+  //   const email = emailRef.current?.value;
+  //   const password = passwordRef.current?.value;
+  //   const confirmPassword = confirmPasswordRef.current?.value;
+
+  //   setStep((prev) => prev + 1);
+  // };
+
+  // function to make the password visible
   const togglePassword = () => {
     const inputElement1 = passwordRef.current;
     const inputElement2 = confirmPasswordRef.current;
+
     if (inputElement1 && inputElement2) {
       if (inputElement1.type === "password") {
         inputElement1.type = "text";
@@ -29,7 +46,7 @@ export function Signup() {
     }
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleNext = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const first_name = firstNameRef.current?.value;
@@ -56,22 +73,23 @@ export function Signup() {
       );
 
       console.log("Signup success:", response.data);
+
       if (response.status === 200) {
-        dispatch({
-          type: "LOGIN",
-          payload: {
-            email: email,
-            token: response.data.token,
-            id: response.data.id,
-          },
-        });
-
-        // navigate("/");
+        if (step == 2) {
+          dispatch({
+            type: "LOGIN",
+            payload: {
+              email: email,
+              token: response.data.token,
+              id: response.data.id,
+            },
+          });
+          return;
+        }
       }
-      // dispatch({ type: 'LOGIN', payload: { id: response.data.id, email } })
-      // dispatch({ type: 'LOGIN', payload: { email : email } })
-
-      //
+      if (response.status === 200) {
+        setStep(2);
+      }
     } catch (error) {
       console.error("Signup error:", error);
     }
@@ -84,93 +102,145 @@ export function Signup() {
           <h1 className="uppercase text-3xl font-bold">Sign up</h1>
           <small className="capitalize font-thing">welcome</small>
         </div>
-        <form onSubmit={handleSignup} className="capitalize font-bold">
-          <div className="flex flex-col md:flex-row gap-6">
-            <div>
-              <label htmlFor="firstName">Enter your First Name</label>
-              <input
-                type="text"
-                id="firstName"
-                placeholder="First Name"
-                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
-                required
-                ref={firstNameRef}
-              />
-            </div>
-            <div>
-              <label htmlFor="lastName">Enter your Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                placeholder="Last Name"
-                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
-                required
-                ref={lastNameRef}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row gap-6">
-            <div>
-              <label htmlFor="email">Enter your Email</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="Email"
-                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
-                required
-                ref={emailRef}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Enter your Password</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
-                required
-                ref={passwordRef}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row gap-6">
-            <div>
-              <label htmlFor="confirmPassword">Confirm your Password</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirm Password"
-                className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
-                required
-                ref={confirmPasswordRef}
-              />
-              {wrongAuth && (
-                <p className="text-red-700 my-2 ">Please check your password</p>
-              )}
-              <input
-                type="checkbox"
-                className="me-3"
-                ref={checkboxRef}
-                onClick={togglePassword}
-              />
-              <label htmlFor="">Show Password</label>
-              <p className="mt-2 text-sm font-normal">
-                Have an account?{" "}
-                <span className="font-bold underline">
-                  <Link to="/login">Login</Link>
-                </span>
-              </p>
-            </div>
-            <div className="mt-auto w-full text-right">
-              <button
-                type="submit"
-                className="border-2 border-black bg-blueish font-bold py-1 px-4"
+
+        <form onSubmit={handleNext} className="capitalize font-bold">
+          <AnimatePresence>
+            {step === 1 && (
+              <motion.div
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ ease: "anticipate" }}
               >
-                Signup
-              </button>
-            </div>
-          </div>
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div>
+                    <label htmlFor="firstName">Enter your First Name</label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      placeholder="First Name"
+                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      required
+                      ref={firstNameRef}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="lastName">Enter your Last Name</label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      placeholder="Last Name"
+                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      required
+                      ref={lastNameRef}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div>
+                    <label htmlFor="email">Enter your Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      placeholder="Email"
+                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      required
+                      ref={emailRef}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="password">Enter your Password</label>
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="Password"
+                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      required
+                      ref={passwordRef}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col md:flex-row gap-6 items-end">
+                  <div>
+                    <label htmlFor="confirmPassword">
+                      Confirm your Password
+                    </label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      placeholder="Confirm Password"
+                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      required
+                      ref={confirmPasswordRef}
+                    />
+                    {wrongAuth && (
+                      <p className="text-red-700 my-2 ">
+                        Please check your password
+                      </p>
+                    )}
+                    <input
+                      type="checkbox"
+                      className="me-3"
+                      ref={checkboxRef}
+                      onClick={togglePassword}
+                    />
+                    <label htmlFor="">Show Password</label>
+                  </div>
+                  <div className="mt-auto w-full text-right">
+                    <button
+                      type="submit"
+                      className="border-2 border-black bg-redish font-bold py-1 px-4"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            {step === 2 && (
+              <motion.div
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ ease: "anticipate" }}
+              >
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div>
+                    <label htmlFor="">Enter Your Location</label>
+                    <input
+                      type="text"
+                      placeholder="Location"
+                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="">Enter Your Phone Number</label>
+                    <input
+                      type="number"
+                      placeholder="Number"
+                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                    />
+                  </div>
+                </div>
+                <div className="mt-auto w-full text-right">
+                  <button
+                    type="submit"
+                    className="border-2 border-black bg-blueish font-bold py-1 px-4"
+                  >
+                    Signup
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </form>
+        <br />
+        <p className="mt-2 text-sm font-normal">
+          Have an account?{" "}
+          <span className="font-bold underline">
+            <Link to="/login">Login</Link>
+          </span>
+        </p>
       </div>
       <div>
         <img src={bg} alt="" />
