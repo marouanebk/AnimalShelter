@@ -1,7 +1,6 @@
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "react-slideshow-image/dist/styles.css";
-import { Slide } from "react-slideshow-image";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
@@ -47,18 +46,14 @@ export function Card({
   return (
     <div className="max-w-fit border-[3px] border-black p-2 bg-white mx-auto sm:mx-0 w-[205px] h-[309px]">
       <div className="slide-container">
-        <Slide>
-          {pictures.map((picture, index) => (
-            <Link to={`/ads/${id}`} key={index}>
-              <img
-                style={{ width: "100%" }}
-                src={picture}
-                alt="pic"
-                className="w-[183px] h-[196px] object-cover"
-              />
-            </Link>
-          ))}
-        </Slide>
+        <Link to={`/ads/${id}`}>
+          <img
+            style={{ width: "100%" }}
+            src={pictures[0]}
+            alt="pic"
+            className="w-[183px] min-w-[183px] min-h-[196px] h-[196px] object-cover"
+          />
+        </Link>
       </div>
 
       <div className="font-bold my-2">
