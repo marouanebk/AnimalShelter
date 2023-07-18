@@ -63,8 +63,10 @@ export function Signup() {
     // const location = locationRef.current?.value;
 
     if (password !== confirmPassword) {
-      console.error("Password confirmation does not match.");
       setWrongAuth(true);
+      console.error();
+      setAuthMessage("Password confirmation does not match.")
+
       return;
     }
 
@@ -80,19 +82,19 @@ export function Signup() {
             password,
           }
         );
-        console.log(response.status)
+        console.log(response.status);
         if (response.status === 200) {
           setStep(2);
-          setWrongAuth(false)
-
+          setWrongAuth(false);
         } else {
-          setWrongAuth(true)
-          setAuthMessage(response.data.message)
-
+          console.log(response.data);
+          setWrongAuth(true);
+          setAuthMessage(response.data.message);
         }
-      }
-      catch (error) {
-        console.log(error);
+      } catch (error) {
+        setWrongAuth(true);
+        setAuthMessage(error.response.data.message);
+
       }
     } else if (step == 2) {
       try {
@@ -122,7 +124,9 @@ export function Signup() {
 
       }
       catch (error) {
-        console.log(error);
+
+        setWrongAuth(true);
+        setAuthMessage(error.response.data.message);
       }
     }
   }
@@ -258,10 +262,18 @@ export function Signup() {
                       className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
                       value={phone_number}
                       onChange={(e) => setPhone_number(e.target.value)}
+                      maxLength={10}
+
 
                     />
                   </div>
                 </div>
+                
+                {wrongAuth && (
+                      <p className="text-red-700 my-2 ">
+                        {authMessage}
+                      </p>
+                    )}
                 <div className="mt-auto w-full text-right">
                   <button
                     type="submit"

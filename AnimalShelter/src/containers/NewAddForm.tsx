@@ -30,6 +30,10 @@ export function NewAddForm() {
     pictures: [],
   });
 
+  const [submitting, setSubmitting] = useState(false);
+
+
+
   const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.target;
     const inputValue = type === "checkbox" ? checked : value;
@@ -117,7 +121,13 @@ export function NewAddForm() {
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
 
+    if (submitting) {
+      return;
+    }
+
     try {
+      setSubmitting(true); // Set the submitting status to true
+
       const uploadedPictures = await handleUpload(formData); // Wait for handleUpload to complete and get the updated pictures array
 
       const updatedFormData = { ...formData, pictures: uploadedPictures }; // Update the formData with the new pictures array
@@ -127,10 +137,18 @@ export function NewAddForm() {
         "http://localhost:4000/createAd",
         updatedFormData
       );
-      alert("Add has been published");
-      navigate("/user");
+      if (result.status == 200) {
+        alert("Add has been published");
+        navigate("/user");
+
+      }
+
     } catch (error) {
-      console.log(error);
+      alert(error.response.data.message)
+
+    }
+    finally {
+      setSubmitting(false);
     }
   };
 
@@ -263,8 +281,9 @@ export function NewAddForm() {
               <button
                 type="submit"
                 className="border-2 border-black bg-blueish font-bold py-1 px-4 mr-3"
+                disabled={submitting}
               >
-                Submit
+                {submitting ? "Submitting..." : "Submit"}
               </button>
               <Link to="/user">
                 <button className="border-2 border-black bg-redish font-bold py-1 px-4">
