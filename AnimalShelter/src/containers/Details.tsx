@@ -9,8 +9,6 @@ import { AuthContext } from "../context/AuthContext";
 export function Details() {
   const { currentUser }: any = useContext(AuthContext);
 
-
-
   const { id } = useParams();
 
   type Ad = {
@@ -39,7 +37,6 @@ export function Details() {
 
   const getAd = async () => {
     try {
-
       const res = await axios.get(`http://localhost:4000/ads/${id}`);
       const result = await res.data;
       setDetails(result.ad);
@@ -53,19 +50,16 @@ export function Details() {
     try {
       const res = await axios.post(`http://localhost:4000/favorites`, {
         userId: currentUser.id,
-        adId: id
+        adId: id,
       });
       if (res.status === 200 || res.status === 201) {
         setIsFavorite(!isFavorite);
       }
-
-
     } catch (error) {
       console.log(error);
     }
     // setIsFavorite(!isFavorite);
   };
-
 
   useEffect(() => {
     getAd();
@@ -109,13 +103,16 @@ export function Details() {
           <span className="font-bold me-2">
             you can save this add in your favorites:
           </span>
-          <button className="font-bold px-3 py-2 bg-redish" onClick={handleFavoriteClick}
+          <button
+            className="font-bold px-3 py-2 bg-redish"
+            onClick={handleFavoriteClick}
           >
             <p className="text-lg flex gap-2">
               <span>Favorite</span>
               <FaHeart
-                className={`inline text-xl my-auto ${isFavorite ? "text-black" : "text-white"
-                  }`}
+                className={`inline text-xl my-auto ${
+                  isFavorite ? "text-black" : "text-white"
+                }`}
               />
             </p>
           </button>
@@ -222,10 +219,20 @@ export function Details() {
                       >
                         Number
                       </th>
-                      <td className="px-6 py-4">{details.owner.phone_number}</td>
+                      <td className="px-6 py-4">
+                        {details.owner.phone_number}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+              <div className="flex items-center gap-4 justify-end mt-5">
+                <button className="border-2 border-black bg-blueish font-bold py-1 px-4">
+                  Edit
+                </button>
+                <button className="border-2 border-black bg-redish font-bold py-1 px-4">
+                  Remove
+                </button>
               </div>
             </div>
           </div>
