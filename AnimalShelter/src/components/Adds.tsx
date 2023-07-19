@@ -49,14 +49,12 @@ export function Adds({ filterState }: AddsProps) {
 
       if (searchQuery) {
         apiUrl += `&location=${searchQuery}`;
-        console.log("seaaaaaaaaaaaach queryyyyyyy");
       }
 
       console.log("apiUrl: " + apiUrl);
 
       const res = await axios.get(apiUrl);
       const result = await res.data["ads"];
-      console.log(result);
       setAds(result);
     } catch (error) {
       console.log(error);

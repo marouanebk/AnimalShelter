@@ -1,10 +1,11 @@
 import { useParams } from "react-router";
 // import { addsData } from "../data/AddsData";
 import { FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+
 
 export function Details() {
   const { currentUser }: any = useContext(AuthContext);
@@ -32,13 +33,27 @@ export function Details() {
     };
   };
 
+  const [isOwner, setIsOwner] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const navigate = useNavigate();
+
+
+
+
   const [details, setDetails] = useState<Ad | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editedAd, setEditedAd] = useState<Ad | null>(null);
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   const getAd = async () => {
     try {
       const res = await axios.get(`http://localhost:4000/ads/${id}`);
       const result = await res.data;
+      console.log(result.ad.owner.id);
+      if (currentUser && currentUser.id == result.ad.owner.id) {
+        setIsOwner(true)
+      }
       setDetails(result.ad);
       setIsFavorite(result.isFavorite);
     } catch (error) {
@@ -58,12 +73,52 @@ export function Details() {
     } catch (error) {
       console.log(error);
     }
-    // setIsFavorite(!isFavorite);
   };
+
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:4000/deleteAd/${details?._id}`);
+      if (res.status === 200) {
+        navigate(`/user`);
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // const handleEditClick = () => {
+  //   setEditedAd({ ...details });
+  //   setShowEditForm(true);
+  // };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("ediiting")
+    try {
+      const res = await axios.put(`http://localhost:4000/editAd/${id}`, editedAd);
+      if (res.status === 200) {
+        console.log("truueee")
+
+        alert("Ad updated successfully");
+        setIsEditMode(false);
+        getAd();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
 
   useEffect(() => {
     getAd();
   }, []);
+
+  useEffect(() => {
+    // Clone the details object to avoid mutating the original state
+    setEditedAd(details);
+  }, [details]);
 
   if (!details) {
     return (
@@ -80,7 +135,20 @@ export function Details() {
       <main>
         <div className="mb-5">
           <h1 className="text-4xl font-bold capitalize">
-            {details.animalName}
+            {isEditMode ? (
+              <input
+                type="text"
+                value={editedAd?.animalName || ""}
+                onChange={(e) =>
+                  setEditedAd((prevEditedAd) => ({
+                    ...prevEditedAd!,
+                    animalName: e.target.value,
+                  }))
+                }
+              />
+            ) : (
+              editedAd?.animalName || ""
+            )}
           </h1>
           <small className="text-lightGrayadd swiping the images">
             Pictures
@@ -110,9 +178,8 @@ export function Details() {
             <p className="text-lg flex gap-2">
               <span>Favorite</span>
               <FaHeart
-                className={`inline text-xl my-auto ${
-                  isFavorite ? "text-black" : "text-white"
-                }`}
+                className={`inline text-xl my-auto ${isFavorite ? "text-black" : "text-white"
+                  }`}
               />
             </p>
           </button>
@@ -131,8 +198,22 @@ export function Details() {
                       >
                         Type
                       </th>
-                      <td className="px-6 py-4">{details.type}</td>
-                    </tr>
+                      <td className="px-6 py-4">
+                        {isEditMode ? (
+                          <input
+                            type="text"
+                            value={editedAd?.type || ""}
+                            onChange={(e) =>
+                              setEditedAd((prevEditedAd) => ({
+                                ...prevEditedAd!,
+                                type: e.target.value,
+                              }))
+                            }
+                          />
+                        ) : (
+                          editedAd?.type || ""
+                        )}
+                      </td>                    </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -140,8 +221,22 @@ export function Details() {
                       >
                         Race
                       </th>
-                      <td className="px-6 py-4">{details.race}</td>
-                    </tr>
+                      <td className="px-6 py-4">
+                        {isEditMode ? (
+                          <input
+                            type="text"
+                            value={editedAd?.race || ""}
+                            onChange={(e) =>
+                              setEditedAd((prevEditedAd) => ({
+                                ...prevEditedAd!,
+                                race: e.target.value,
+                              }))
+                            }
+                          />
+                        ) : (
+                          editedAd?.race || ""
+                        )}
+                      </td>                     </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -150,7 +245,22 @@ export function Details() {
                         Vaccinated?
                       </th>
                       <td className="px-6 py-4">
-                        {details.vaccinated.toString()}
+                        {isEditMode ? (
+                          <select
+                            value={editedAd?.vaccinated.toString() || "false"}
+                            onChange={(e) =>
+                              setEditedAd((prevEditedAd) => ({
+                                ...prevEditedAd!,
+                                vaccinated: e.target.value === "true",
+                              }))
+                            }
+                          >
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                          </select>
+                        ) : (
+                          details.vaccinated.toString()
+                        )}
                       </td>
                     </tr>
                     <tr className="bg-white border-b-2 border-b-main">
@@ -160,8 +270,22 @@ export function Details() {
                       >
                         Health
                       </th>
-                      <td className="px-6 py-4">{details.healthCondition}</td>
-                    </tr>
+                      <td className="px-6 py-4">
+                        {isEditMode ? (
+                          <input
+                            type="text"
+                            value={editedAd?.healthCondition || ""}
+                            onChange={(e) =>
+                              setEditedAd((prevEditedAd) => ({
+                                ...prevEditedAd!,
+                                healthCondition: e.target.value,
+                              }))
+                            }
+                          />
+                        ) : (
+                          editedAd?.healthCondition || ""
+                        )}
+                      </td>                    </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -169,8 +293,22 @@ export function Details() {
                       >
                         Age
                       </th>
-                      <td className="px-6 py-4">{details.age}</td>
-                    </tr>
+                      <td className="px-6 py-4">
+                        {isEditMode ? (
+                          <input
+                            type="number"
+                            value={editedAd?.age || 0}
+                            onChange={(e) =>
+                              setEditedAd((prevEditedAd) => ({
+                                ...prevEditedAd!,
+                                age: parseInt(e.target.value),
+                              }))
+                            }
+                          />
+                        ) : (
+                          editedAd?.age || 0
+                        )}
+                      </td>          </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -226,14 +364,42 @@ export function Details() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center gap-4 justify-end mt-5">
-                <button className="border-2 border-black bg-blueish font-bold py-1 px-4">
-                  Edit
-                </button>
-                <button className="border-2 border-black bg-redish font-bold py-1 px-4">
-                  Remove
-                </button>
-              </div>
+
+              {isOwner && (
+                <div className="flex items-center gap-4 justify-end mt-5">
+                  {isEditMode ? (
+                    <>
+                      <button
+                        className="border-2 border-black bg-blueish font-bold py-1 px-4"
+                        onClick={handleEditSubmit} // Directly call handleEditSubmit
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="border-2 border-black bg-redish font-bold py-1 px-4"
+                        onClick={() => setIsEditMode(false)} // Directly call setIsEditMode
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="border-2 border-black bg-blueish font-bold py-1 px-4"
+                        onClick={() => setIsEditMode(true)} // Directly call setIsEditMode
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="border-2 border-black bg-redish font-bold py-1 px-4"
+                        onClick={() => setShowDeleteConfirmation(true)} // Directly call setShowDeleteConfirmation
+                      >
+                        Remove
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -242,6 +408,30 @@ export function Details() {
           See More Adds?
         </Link>
       </main>
+
+
+      //delete code
+      {showDeleteConfirmation && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg text-center">
+            <p className="mb-4">Are you sure you want to delete this ad?</p>
+            <div className="flex items-center justify-center gap-4">
+              <button
+                className="border-2 border-black bg-redish font-bold py-1 px-4"
+                onClick={handleDelete}
+              >
+                Yes
+              </button>
+              <button
+                className="border-2 border-black bg-blueish font-bold py-1 px-4"
+                onClick={() => setShowDeleteConfirmation(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

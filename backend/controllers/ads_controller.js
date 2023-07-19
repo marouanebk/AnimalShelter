@@ -52,20 +52,6 @@ exports.getAdById = async (req, res, next) => {
     next(error); // Pass the error to the error handling middleware
   }
 };
-exports.getAdsByDate = async (req, res, next) => {
-  try {
-    const ads = await Ad.find()
-      .sort({ date: -1 })
-      .populate({
-        path: 'owner',
-        // select: 'location',
-      })
-      .select('animalName type owner pictures');
-    res.status(200).json({ ads });
-  } catch (error) {
-    next(error); // Pass the error to the error handling middleware
-  }
-};
 
 
 
@@ -172,4 +158,59 @@ exports.getAdsByType = async (req, res, next) => {
     next(error); // Pass the error to the error handling middleware
   }
 };
+
+
+exports.deleteAd = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    // Check if the ad with the provided ID exists
+    const ad = await Ad.findById(id);
+    if (!ad) {
+      return res.status(404).json({ message: 'Ad not found' });
+    }
+
+    // Delete the ad
+    await ad.remove();
+
+    res.status(200).json({ success: true, message: 'Ad deleted successfully' });
+  } catch (error) {
+    next(error); // Pass the error to the error handling middleware
+  }
+};
+
+exports.editAd = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    // Check if the ad with the provided ID exists
+    const ad = await Ad.findById(id);
+    if (!ad) {
+      return res.status(404).json({ message: 'Ad not found' });
+    }
+
+    // Extract the fields that are allowed to be edited
+    const { animalName, type, race, vaccinated, healthCondition, age, pictures } = req.body;
+
+    // Update the ad with the new values
+    ad.animalName = animalName;
+    ad.type = type;
+    ad.race = race;
+    ad.vaccinated = vaccinated;
+    ad.healthCondition = healthCondition;
+    ad.age = age;
+    ad.pictures = pictures;
+
+    // Save the updated ad
+    await ad.save();
+
+    res.status(200).json({ success: true, ad });
+  } catch (error) {
+    next(error); // Pass the error to the error handling middleware
+  }
+};
+
+
+
+
 
