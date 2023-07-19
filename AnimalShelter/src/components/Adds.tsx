@@ -67,35 +67,44 @@ export function Adds({ filterState }: AddsProps) {
     getAds();
   }, [location.search]);
 
-  if (ads.length == 0) {
-    return (
-      <div className="flex justify-center">
-        <div className="lds-heart">
-          <div></div>
-        </div>
-      </div>
-    );
-  }
+  // if (ads.length == 0) {
+  //   return (
+  //     <div className="flex justify-center">
+  //       <div className="lds-heart">
+  //         <div></div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <section className="mt-5 pb-10">
+    <section className="mt-5 pb-10 min-h-screen">
       <div className="my-5">
         <h1 className="text-lg font-bold">Advertisement</h1>
         <small className="text-lightGray">For Adoption</small>
       </div>
-      <div className="grid grid-cols-fill gap-4">
-        {ads.map((ad) => (
-          <Card
-            key={ad._id}
-            type={ad.type}
-            location={ad.owner.location}
-            pictures={ad.pictures}
-            id={ad._id}
-            date={ad.date}
-            isFavorite={ad.isFavorite}
-          />
-        ))}
-      </div>
+
+      {ads.length != 0 ? (
+        <div className="grid grid-cols-fill gap-4">
+          {ads.map((ad) => (
+            <Card
+              key={ad._id}
+              type={ad.type}
+              location={ad.owner.location}
+              pictures={ad.pictures}
+              id={ad._id}
+              date={ad.date}
+              isFavorite={ad.isFavorite}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <div className="lds-heart">
+            <div></div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
