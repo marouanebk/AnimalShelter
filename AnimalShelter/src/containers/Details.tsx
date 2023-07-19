@@ -6,7 +6,6 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
-
 export function Details() {
   const { currentUser }: any = useContext(AuthContext);
 
@@ -37,9 +36,6 @@ export function Details() {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const navigate = useNavigate();
 
-
-
-
   const [details, setDetails] = useState<Ad | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedAd, setEditedAd] = useState<Ad | null>(null);
@@ -52,7 +48,7 @@ export function Details() {
       const result = await res.data;
       console.log(result.ad.owner.id);
       if (currentUser && currentUser.id == result.ad.owner.id) {
-        setIsOwner(true)
+        setIsOwner(true);
       }
       setDetails(result.ad);
       setIsFavorite(result.isFavorite);
@@ -77,10 +73,11 @@ export function Details() {
 
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`http://localhost:4000/deleteAd/${details?._id}`);
+      const res = await axios.delete(
+        `http://localhost:4000/deleteAd/${details?._id}`
+      );
       if (res.status === 200) {
         navigate(`/user`);
-
       }
     } catch (error) {
       console.log(error);
@@ -93,11 +90,14 @@ export function Details() {
 
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("ediiting")
+    console.log("ediiting");
     try {
-      const res = await axios.put(`http://localhost:4000/editAd/${id}`, editedAd);
+      const res = await axios.put(
+        `http://localhost:4000/editAd/${id}`,
+        editedAd
+      );
       if (res.status === 200) {
-        console.log("truueee")
+        console.log("truueee");
 
         alert("Ad updated successfully");
         setIsEditMode(false);
@@ -107,9 +107,6 @@ export function Details() {
       console.log(error);
     }
   };
-
-
-
 
   useEffect(() => {
     getAd();
@@ -178,8 +175,9 @@ export function Details() {
             <p className="text-lg flex gap-2">
               <span>Favorite</span>
               <FaHeart
-                className={`inline text-xl my-auto ${isFavorite ? "text-black" : "text-white"
-                  }`}
+                className={`inline text-xl my-auto ${
+                  isFavorite ? "text-black" : "text-white"
+                }`}
               />
             </p>
           </button>
@@ -213,7 +211,8 @@ export function Details() {
                         ) : (
                           editedAd?.type || ""
                         )}
-                      </td>                    </tr>
+                      </td>{" "}
+                    </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -236,7 +235,8 @@ export function Details() {
                         ) : (
                           editedAd?.race || ""
                         )}
-                      </td>                     </tr>
+                      </td>{" "}
+                    </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -285,7 +285,8 @@ export function Details() {
                         ) : (
                           editedAd?.healthCondition || ""
                         )}
-                      </td>                    </tr>
+                      </td>{" "}
+                    </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -308,7 +309,8 @@ export function Details() {
                         ) : (
                           editedAd?.age || 0
                         )}
-                      </td>          </tr>
+                      </td>{" "}
+                    </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th
                         scope="row"
@@ -408,12 +410,9 @@ export function Details() {
           See More Adds?
         </Link>
       </main>
-
-
-      //delete code
       {showDeleteConfirmation && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg text-center">
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50 font-semibold ">
+          <div className="bg-white p-8 border-2 border-black text-center">
             <p className="mb-4">Are you sure you want to delete this ad?</p>
             <div className="flex items-center justify-center gap-4">
               <button
