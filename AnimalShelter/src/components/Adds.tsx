@@ -1,13 +1,13 @@
 import { Card } from "./Card";
 import { addsData } from "../data/AddsData";
 import axios from "axios";
-import { useEffect, useState , useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 type AddsProps = {
   filterState: string;
-  searchQuery:string;
+  searchQuery: string;
 };
 
 export function Adds({ filterState }: AddsProps) {
@@ -21,7 +21,7 @@ export function Adds({ filterState }: AddsProps) {
     date: string;
     owner: {
       location: string;
-    }
+    };
     isFavorite: boolean;
   };
 
@@ -34,6 +34,7 @@ export function Adds({ filterState }: AddsProps) {
 
   const getAds = async () => {
     try {
+      setAds([]);
       const searchParams = new URLSearchParams(location.search);
       const filterState = searchParams.get("type");
       const searchQuery = searchParams.get("location");
@@ -50,7 +51,6 @@ export function Adds({ filterState }: AddsProps) {
         apiUrl += `&location=${searchQuery}`;
         console.log("seaaaaaaaaaaaach queryyyyyyy");
       }
-      
 
       console.log("apiUrl: " + apiUrl);
 
@@ -66,6 +66,16 @@ export function Adds({ filterState }: AddsProps) {
   useEffect(() => {
     getAds();
   }, [location.search]);
+
+  if (ads.length == 0) {
+    return (
+      <div className="flex justify-center">
+        <div className="lds-heart">
+          <div></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="mt-5 pb-10">

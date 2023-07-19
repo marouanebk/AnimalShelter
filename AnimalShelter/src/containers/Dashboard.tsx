@@ -10,11 +10,10 @@ import { Link } from "react-router-dom";
 
 export function Dashboard() {
   const { currentUser }: any = useContext(AuthContext);
-  
 
   const { userAds } = useUserAds(currentUser.id);
   const { userFavorites } = useUserFavorites(currentUser.id);
-  const { userInfo, } = useUseInfo(currentUser.id);
+  const { userInfo } = useUseInfo(currentUser.id);
   // const updateUserInfo = userInfo
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedUserInfo, setEditedUserInfo] = useState(userInfo);
@@ -26,7 +25,7 @@ export function Dashboard() {
     setIsEditMode(true);
   };
 
-  const handleInputChange = (e : any) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setEditedUserInfo((prev) => ({
       ...prev,
@@ -89,8 +88,7 @@ export function Dashboard() {
                 type={add.type}
                 id={add._id}
                 date={add.date}
-              isFavorite = {true}
-
+                isFavorite={true}
               />
             ))}
           </div>
@@ -111,7 +109,7 @@ export function Dashboard() {
                 type={add.type}
                 id={add._id}
                 date={add.date}
-                isFavorite = {add.isFavorite}
+                isFavorite={add.isFavorite}
               />
             ))}
             <NewAdd />
