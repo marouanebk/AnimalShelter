@@ -65,7 +65,7 @@ export function Signup() {
     if (password !== confirmPassword) {
       setWrongAuth(true);
       console.error();
-      setAuthMessage("Password confirmation does not match.")
+      setAuthMessage("Password confirmation does not match.");
 
       return;
     }
@@ -94,7 +94,6 @@ export function Signup() {
       } catch (error) {
         setWrongAuth(true);
         setAuthMessage(error.response.data.message);
-
       }
     } else if (step == 2) {
       try {
@@ -105,7 +104,6 @@ export function Signup() {
             email,
             location,
             phone_number,
-
           }
         );
         if (response.status === 200) {
@@ -118,18 +116,15 @@ export function Signup() {
             },
           });
         } else {
-          setWrongAuth(true)
-          setAuthMessage(response.data.message)
+          setWrongAuth(true);
+          setAuthMessage(response.data.message);
         }
-
-      }
-      catch (error) {
-
+      } catch (error) {
         setWrongAuth(true);
         setAuthMessage(error.response.data.message);
       }
     }
-  }
+  };
   return (
     <main className="my-10 flex flex-col lg:flex-row gap-10 items-center justify-center">
       <div className="filter-active--secondary">
@@ -154,7 +149,7 @@ export function Signup() {
                       type="text"
                       id="firstName"
                       placeholder="First Name"
-                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
                       required
                       ref={firstNameRef}
                     />
@@ -165,7 +160,7 @@ export function Signup() {
                       type="text"
                       id="lastName"
                       placeholder="Last Name"
-                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
                       required
                       ref={lastNameRef}
                     />
@@ -178,11 +173,10 @@ export function Signup() {
                       type="email"
                       id="email"
                       placeholder="Email"
-                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
                       required
                       onChange={(e) => setEmail(e.target.value)}
-                      value={email !== undefined ? email : ''}
-
+                      value={email !== undefined ? email : ""}
                     />
                   </div>
                   <div>
@@ -191,7 +185,7 @@ export function Signup() {
                       type="password"
                       id="password"
                       placeholder="Password"
-                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
                       required
                       ref={passwordRef}
                     />
@@ -206,14 +200,12 @@ export function Signup() {
                       type="password"
                       id="confirmPassword"
                       placeholder="Confirm Password"
-                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
                       required
                       ref={confirmPasswordRef}
                     />
                     {wrongAuth && (
-                      <p className="text-red-700 my-2 ">
-                        {authMessage}
-                      </p>
+                      <p className="text-red-700 my-2 ">{authMessage}</p>
                     )}
                     <input
                       type="checkbox"
@@ -248,10 +240,9 @@ export function Signup() {
                       type="text"
                       id="location"
                       placeholder="Location"
-                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
                       onChange={(e) => setlocation(e.target.value)}
                       value={location}
-
                     />
                   </div>
                   <div>
@@ -259,21 +250,17 @@ export function Signup() {
                     <input
                       type="number"
                       placeholder="Number"
-                      className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+                      className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
                       value={phone_number}
                       onChange={(e) => setPhone_number(e.target.value)}
                       maxLength={10}
-
-
                     />
                   </div>
                 </div>
-                
+
                 {wrongAuth && (
-                      <p className="text-red-700 my-2 ">
-                        {authMessage}
-                      </p>
-                    )}
+                  <p className="text-red-700 my-2 ">{authMessage}</p>
+                )}
                 <div className="mt-auto w-full text-right">
                   <button
                     type="submit"

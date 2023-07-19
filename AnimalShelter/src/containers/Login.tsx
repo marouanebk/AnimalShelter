@@ -47,7 +47,7 @@ export function Login() {
 
         // navigate("/");
       } else if (response.status === 401) {
-        setWrongAuth(true)
+        setWrongAuth(true);
       }
       // dispatch({ type: 'LOGIN', payload: { email: email } })
     } catch (error) {
@@ -70,7 +70,7 @@ export function Login() {
               type="email"
               id="email"
               placeholder="Email"
-              className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+              className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
               required
               ref={emailRef}
             />
@@ -81,7 +81,7 @@ export function Login() {
               type="password"
               id="password"
               placeholder="Password"
-              className="block px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  focus:outline-none font-bold  caret-grayish rounded-sm my-3"
+              className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish rounded-sm my-3"
               required
               ref={passwordRef}
             />
