@@ -95,11 +95,13 @@ export function Details() {
         <div className="flex gap-7 items-center justify-between flex-col sm:flex-row max-w-2xl">
           {details.pictures.map((i, index) => (
             <div key={index}>
-              <img
-                src={i}
-                alt="pic"
-                className="block border-[3px] border-black w-52 h-52 object-cover"
-              />
+              <a href={i} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={i}
+                  alt="pic"
+                  className="block border-[3px] border-black w-52 h-52 object-cover"
+                />
+              </a>
             </div>
           ))}
         </div>
