@@ -9,7 +9,7 @@ import storage from "../firebaseconfig";
 export function NewAddForm() {
   const { currentUser }: any = useContext(AuthContext);
   const navigate = useNavigate();
-  const [popped, setPopped] = useState(false);
+
   const [formData, setFormData] = useState<{
     owner: any;
     animalName: string;
@@ -32,8 +32,6 @@ export function NewAddForm() {
 
   const [submitting, setSubmitting] = useState(false);
 
-
-
   const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.target;
     const inputValue = type === "checkbox" ? checked : value;
@@ -44,11 +42,9 @@ export function NewAddForm() {
     }));
   };
   const [files, setFiles] = useState([]);
-  const [percent, setPercent] = useState(0);
+  console.log(files);
 
-  // if (percent == 100) {
-  //   Navigate({ to: ".." });
-  // }
+  const [percent, setPercent] = useState(0);
 
   function handleChange(event: any) {
     const selectedFiles = Array.from(event.target.files);
@@ -140,14 +136,10 @@ export function NewAddForm() {
       if (result.status == 200) {
         alert("Add has been published");
         navigate("/user");
-
       }
-
     } catch (error) {
-      alert(error.response.data.message)
-
-    }
-    finally {
+      alert(error.response.data.message);
+    } finally {
       setSubmitting(false);
     }
   };
@@ -157,37 +149,57 @@ export function NewAddForm() {
       <h1 className="text-3xl font-bold mb-8">
         Publishing an advertisement for your pet
       </h1>
-      <p className="font-bold mb-4">Upload Your pictures</p>
-
-      <p>
+      <p className="font-bold ">Upload Your pictures</p>
+      <small className="font-bold text-sm ">
+        Select three pictures at the time
+      </small>
+      <p className="my-4">
         {percent} "% done" - {uploadedPictures.length}/{files.length} uploaded
       </p>
-      <div className="max-w-fit border-[3px] bg-white border-black mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
+      <div className="flex gap-5 flex-col md:flex-row items-center justify-start ">
         {files.length === 0 ? (
           <>
-            <input
-              type="file"
-              id="fileInput"
-              onChange={handleChange}
-              accept="image/*"
-              multiple
-              className="custom-file-input"
-            />
-            <label htmlFor="fileInput" className="custom-file-label">
-              <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
-            </label>
+            <div className="max-w-fit   border-[3px] bg-white  border-black sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center my-5">
+              <input
+                type="file"
+                id="fileInput"
+                onChange={handleChange}
+                accept="image/*"
+                multiple
+                className="custom-file-input"
+              />
+              <label htmlFor="fileInput" className="custom-file-label">
+                <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
+              </label>
+            </div>
           </>
         ) : (
-          <div className="flex gap-7 items-center justify-between flex-col sm:flex-row max-w-2xl">
+          <div className="flex gap-5 flex-col md:flex-row items-center justify-start my-5">
             {files.map((file, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                className="max-w-fit  border-[3px] bg-white  border-black  mx-auto sm:mx-0 min-w-[200px] min-h-[200px] w-[200px] h-[200px] overflow-hidden flex items-center justify-center"
+              >
                 <img
                   src={URL.createObjectURL(file)}
                   alt={`pic-${index}`}
-                  className="w-52 h-52 object-cover"
+                  className="w-[198px] h-[198px] object-cover"
                 />
               </div>
             ))}
+            <div className="max-w-fit  border-[3px] bg-white  border-black   mx-auto sm:mx-0 min-w-[200px] min-h-[200px] flex items-center justify-center">
+              <input
+                type="file"
+                id="fileInput"
+                onChange={handleChange}
+                accept="image/*"
+                multiple
+                className="custom-file-input"
+              />
+              <label htmlFor="fileInput" className="custom-file-label">
+                <AiOutlinePlusCircle className="text-6xl text-lightGray cursor-pointer" />
+              </label>
+            </div>
           </div>
         )}
       </div>
