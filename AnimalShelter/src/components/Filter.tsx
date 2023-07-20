@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import cat from "../assets/cat.jpg";
 import dog from "../assets/dog.jpg";
 import other from "../assets/other.jpg";
+import { motion } from "framer-motion";
 
 type FilterProps = {
   setFilterState: (s: string) => void;
@@ -10,7 +11,11 @@ type FilterProps = {
   setSearchQuery: (s: string) => void;
 };
 
-export function Filter({ setFilterState, filterState, setSearchQuery }: FilterProps) {
+export function Filter({
+  setFilterState,
+  filterState,
+  setSearchQuery,
+}: FilterProps) {
   const [searchQuery, setSearchQueryInternal] = useState("");
   const navigate = useNavigate();
 
@@ -44,20 +49,21 @@ export function Filter({ setFilterState, filterState, setSearchQuery }: FilterPr
 
   return (
     <main className="mb-10">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-start gap-6 mb-4">
         <input
-          className="px-5 py-2 text-md text-lightGray placeholder:text-lightGray placeholder:text-sm  w-full md:w-[350px] focus:outline-none font-bold  caret-grayish shadow-strong"
+          className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish shadow-strong"
           type="text"
           placeholder="Search By Location"
           value={searchQuery}
           onChange={handleSearch}
         />
-        <button
-          className="border-2 border-black bg-blueish font-bold py-1 px-4"
+        <motion.button
+          whileTap={{ scale: 0.9, x: 4, y: 4 }}
+          className="border-2 border-black bg-blueish font-bold py-1 px-4 shadow-strong"
           onClick={handleSearchClick}
         >
           Search
-        </button>
+        </motion.button>
       </div>
       <div className="my-6">
         <div className="my-5">
@@ -65,7 +71,8 @@ export function Filter({ setFilterState, filterState, setSearchQuery }: FilterPr
           <small className="text-grayish">filter by preference</small>
         </div>
         <div className="flex gap-5 items-center justify-between w-full md:w-[450px] font-bold">
-          <div
+          <motion.div
+            whileHover={{ scale: 0.9 }}
             onClick={() => handleClick("cat")}
             ref={catRef}
             className={
@@ -80,8 +87,9 @@ export function Filter({ setFilterState, filterState, setSearchQuery }: FilterPr
               className="aspect-square w-[150px] border-[3px] border-black"
             />
             <h2 className="mt-3 text-lg">Cats</h2>
-          </div>
-          <div
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 0.9 }}
             onClick={() => handleClick("dog")}
             ref={dogRef}
             className={
@@ -96,8 +104,9 @@ export function Filter({ setFilterState, filterState, setSearchQuery }: FilterPr
               className="aspect-square w-[150px] border-[3px] border-black"
             />
             <h2 className="mt-3 text-lg">Dogs</h2>
-          </div>
-          <div
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 0.9 }}
             onClick={() => handleClick("other")}
             ref={otherRef}
             className={
@@ -112,7 +121,7 @@ export function Filter({ setFilterState, filterState, setSearchQuery }: FilterPr
               className="aspect-square w-[150px] h-auto object-cover border-[3px] border-black"
             />
             <h2 className="mt-3 text-lg">Other</h2>
-          </div>
+          </motion.div>
         </div>
       </div>
     </main>

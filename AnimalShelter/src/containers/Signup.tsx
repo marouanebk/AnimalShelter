@@ -216,12 +216,13 @@ export function Signup() {
                     <label htmlFor="">Show Password</label>
                   </div>
                   <div className="mt-auto w-full text-right">
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.9 }}
                       type="submit"
                       className="border-2 border-black bg-redish font-bold py-1 px-4"
                     >
                       Next
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
               </motion.div>
@@ -262,12 +263,13 @@ export function Signup() {
                   <p className="text-red-700 my-2 ">{authMessage}</p>
                 )}
                 <div className="mt-auto w-full text-right">
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
                     type="submit"
                     className="border-2 border-black bg-blueish font-bold py-1 px-4"
                   >
                     Signup
-                  </button>
+                  </motion.button>
                 </div>
               </motion.div>
             )}

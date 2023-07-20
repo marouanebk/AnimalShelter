@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { AnimatePresence, motion } from "framer-motion";
 
 type AddsProps = {
   filterState: string;
@@ -81,28 +82,33 @@ export function Adds({ filterState }: AddsProps) {
         <h1 className="text-lg font-bold">Advertisement</h1>
         <small className="text-lightGray">For Adoption</small>
       </div>
-
-      {ads.length != 0 ? (
-        <div className="grid grid-cols-fill gap-4">
-          {ads.map((ad) => (
-            <Card
-              key={ad._id}
-              type={ad.type}
-              location={ad.owner.location}
-              pictures={ad.pictures}
-              id={ad._id}
-              date={ad.date}
-              isFavorite={ad.isFavorite}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="flex justify-center">
-          <div className="lds-heart">
-            <div></div>
+      <AnimatePresence>
+        {ads.length != 0 ? (
+          <div className="grid grid-cols-fill gap-4">
+            {ads.map((ad) => (
+              <Card
+                key={ad._id}
+                type={ad.type}
+                location={ad.owner.location}
+                pictures={ad.pictures}
+                id={ad._id}
+                date={ad.date}
+                isFavorite={ad.isFavorite}
+              />
+            ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex justify-center"
+          >
+            <div className="lds-heart">
+              <div></div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

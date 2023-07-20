@@ -4,6 +4,7 @@ import "react-slideshow-image/dist/styles.css";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { anticipate, motion } from "framer-motion";
 
 type CardProps = {
   id: number;
@@ -44,7 +45,11 @@ export function Card({
   };
 
   return (
-    <div className="max-w-fit border-[3px] border-black p-2 bg-white mx-auto sm:mx-0 w-[205px] h-[309px]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="max-w-fit border-[3px] border-black p-2 bg-white mx-auto sm:mx-0 w-[205px] h-[309px]"
+    >
       <div className="slide-container">
         <Link to={`/ads/${id}`}>
           <img
@@ -66,14 +71,17 @@ export function Card({
       </div>
       <hr className="mb-2" />
       <div className="flex justify-between">
-        <FaHeart
-          onClick={handleFavoriteClick}
-          style={{ color: favorite ? "red" : "black", cursor: "pointer" }}
-        />
+        <motion.div whileHover={{ scale: 1.5 }}>
+          <FaHeart
+            onClick={handleFavoriteClick}
+            className="w-full"
+            style={{ color: favorite ? "#FD5ADA" : "black", cursor: "pointer" }}
+          />
+        </motion.div>
         <p className="text-sm text-lightGray">
           {new Date(date).toLocaleDateString("en-US")}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }

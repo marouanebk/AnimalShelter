@@ -3,7 +3,7 @@ import bg from "../assets/bg.jpg";
 import { useRef, useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-
+import { motion } from "framer-motion";
 export function Login() {
   const { dispatch }: any = useContext(AuthContext);
 
@@ -94,12 +94,13 @@ export function Login() {
           />
           <label htmlFor="showPassword">Show Password</label>
           <div className="mt-4 w-full text-left">
-            <button
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               type="submit"
               className="border-2 border-black bg-blueish  font-bold py-1 px-4"
             >
               Login
-            </button>
+            </motion.button>
             {wrongAuth && (
               <p className="text-red-700 mt-2 ">Email or password incorrect</p>
             )}

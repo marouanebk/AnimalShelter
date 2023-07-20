@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { motion } from "framer-motion";
 
 export function Details() {
   const { currentUser }: any = useContext(AuthContext);
@@ -155,7 +156,8 @@ export function Details() {
           {details.pictures.map((i, index) => (
             <div key={index}>
               <a href={i} target="_blank" rel="noopener noreferrer">
-                <img
+                <motion.img
+                  whileHover={{ scale: 1.1 }}
                   src={i}
                   alt="pic"
                   className="block border-[3px] border-black w-52 h-52 object-cover"
