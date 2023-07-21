@@ -7,11 +7,13 @@ const Favorite = require('../models/favorites');
 
 
 exports.createAd = async (req, res, next) => {
+  console.log("in creating ad")
   try {
+    console.log(req.body);
     const ad = new Ad(req.body);
     await ad.validate(); // Run the validation explicitly to trigger the validation error
 
-    await ad.save();
+    // await ad.save();
     return res.status(200).send({ success: true });
   } catch (err) {
     if (err.name === 'ValidationError') {

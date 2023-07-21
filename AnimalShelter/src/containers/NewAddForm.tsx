@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext , useEffect } from "react";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
@@ -9,7 +9,6 @@ import { animate, motion, useScroll } from "framer-motion";
 
 export function NewAddForm() {
   const { scrollYProgress } = useScroll();
-  console.log(scrollYProgress);
   const { currentUser }: any = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -45,8 +44,6 @@ export function NewAddForm() {
     }));
   };
   const [files, setFiles] = useState([]);
-  console.log(files);
-
   const [percent, setPercent] = useState(0);
 
   function handleChange(event: any) {
@@ -54,9 +51,17 @@ export function NewAddForm() {
     setFiles(selectedFiles);
   }
 
-  const [uploadedPictures, setUploadedPictures] = useState([]);
+  // let uploadedPictures:string[];
 
-  function handleUpload(formData) {
+  const uploadedPictures = [];
+
+  // const [uploadedPictures, setUploadedPictures] = useState([]);
+  // useEffect(() => {
+  //   console.log("uploaded pictures: ", uploadedPictures);
+  // }, [uploadedPictures]);
+
+
+  const handleUpload = async (formData) => {
     return new Promise((resolve, reject) => {
       if (!files.length) {
         alert("Please choose at least one file first!");
@@ -85,12 +90,12 @@ export function NewAddForm() {
             () => {
               getDownloadURL(uploadTask.snapshot.ref)
                 .then((url) => {
-                  setUploadedPictures((prevUploadedPictures) => [
-                    ...prevUploadedPictures,
-                    url,
-                  ]);
-                  console.log(url);
-                  setPercent(0);
+                  uploadedPictures.push(url);
+                  // setUploadedPictures((prevUploadedPictures) => [
+                  //   ...prevUploadedPictures,
+                  //   url,
+                  // ]);
+                  console.log("uploaded pictures: ", uploadedPictures);
                   resolve();
                 })
                 .catch((err) => {
@@ -101,13 +106,10 @@ export function NewAddForm() {
           );
         });
       });
+      console.log(uploadedPictures)
 
       Promise.all(uploadTasks)
         .then(() => {
-          console.log("uploaded pictures ", uploadedPictures);
-          const updatedFormData = { ...formData, pictures: uploadedPictures };
-          setFormData(updatedFormData);
-          console.log(formData.pictures);
           resolve(uploadedPictures);
         })
         .catch((err) => {
@@ -115,7 +117,7 @@ export function NewAddForm() {
           reject(err);
         });
     });
-  }
+  };
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
@@ -125,12 +127,11 @@ export function NewAddForm() {
     }
 
     try {
-      setSubmitting(true); // Set the submitting status to true
+      setSubmitting(true);
 
-      const uploadedPictures = await handleUpload(formData); // Wait for handleUpload to complete and get the updated pictures array
+      const uploadedPictures = await handleUpload(formData);
 
-      const updatedFormData = { ...formData, pictures: uploadedPictures }; // Update the formData with the new pictures array
-      setFormData(updatedFormData); // Update the state with the new formData
+      const updatedFormData = { ...formData, pictures: uploadedPictures };
 
       const result = await axios.post(
         "http://localhost:4000/createAd",
@@ -138,7 +139,7 @@ export function NewAddForm() {
       );
       if (result.status == 200) {
         alert("Add has been published");
-        navigate("/user");
+        // navigate("/user");
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -146,6 +147,7 @@ export function NewAddForm() {
       setSubmitting(false);
     }
   };
+
 
   return (
     <main>
@@ -157,7 +159,7 @@ export function NewAddForm() {
         Select three pictures at the time
       </small>
       <p className="my-4 font-semibold">
-        {percent} % done - {uploadedPictures.length}/{files.length} uploaded
+        {/* {percent} % done - {uploadedPictures.length}/{files.length} uploaded */}
       </p>
       <motion.div
         style={{ width: `${percent}%` }}
@@ -317,6 +319,7 @@ export function NewAddForm() {
           </div>
         </div>
       </form>
+      <button onClick={() => console.log(uploadedPictures)}> PICTURES</button>
       {/* {popped && <article className="popup">
               <h2>Add Has been added!</h2>
       </article>} */}
