@@ -26,7 +26,7 @@ function App() {
         <Navbar />
       </nav>
       <div>
-        <main className="container px-6 mx-auto py-8">
+        <main className="container px-8 mx-auto py-8">
           <Routes>
             <Route path="/ads" element={<Home />} />
             <Route path="/ads/:id" element={<Details />} />

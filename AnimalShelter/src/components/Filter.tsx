@@ -49,7 +49,7 @@ export function Filter({
 
   return (
     <main className="mb-10">
-      <div className="flex items-center justify-start gap-6 mb-4">
+      <div className="flex flex-col md:flex-row justify-start  gap-6 mb-4">
         <input
           className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish shadow-strong"
           type="text"

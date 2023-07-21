@@ -17,7 +17,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="container px-6 mx-auto">
+    <nav className="container px-8 mx-auto">
       <div className="flex justify-between items-center">
         <Link to="/">
           <h1 className="font-black text-xl">Animal Shelter</h1>
