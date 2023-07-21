@@ -125,11 +125,15 @@ export function Details() {
 
   if (!details) {
     return (
-      <div className="flex justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: 80, scale: 1.5 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        className="flex justify-center"
+      >
         <div className="lds-heart">
           <div></div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
