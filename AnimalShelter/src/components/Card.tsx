@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { anticipate, motion } from "framer-motion";
+import nopic from "../assets/nopic.jpg"
 
 type CardProps = {
   id: number;
@@ -56,12 +57,21 @@ export function Card({
     >
       <div className="slide-container">
         <Link to={`/ads/${id}`}>
-          <img
-            style={{ width: "100%" }}
-            src={pictures[0]}
-            alt="pic"
-            className="w-[183px] min-w-[183px] min-h-[196px] h-[196px] object-cover"
-          />
+          {pictures.length > 0 ? (
+            <img
+              style={{ width: "100%" }}
+              src={pictures[0]}
+              alt="pic"
+              className="w-[183px] min-w-[183px] min-h-[196px] h-[196px] object-cover"
+            />
+          ) : (
+            <img
+              style={{ width: "100%" }}
+              src={nopic}
+              alt="No Pic"
+              className="w-[183px] min-w-[183px] min-h-[196px] h-[196px] object-cover"
+            />
+          )}
         </Link>
       </div>
 

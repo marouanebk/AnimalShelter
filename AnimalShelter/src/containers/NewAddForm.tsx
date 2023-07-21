@@ -1,19 +1,21 @@
-import { useState, useContext , useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import storage from "../firebaseconfig";
 import { animate, motion, useScroll } from "framer-motion";
+
+import { handleUpload } from "../utils/uploadUtils";
+
 
 export function NewAddForm() {
   const { scrollYProgress } = useScroll();
   const { currentUser }: any = useContext(AuthContext);
   const navigate = useNavigate();
 
+
   const [formData, setFormData] = useState<{
-    owner: any;
+    owner: string;
     animalName: string;
     type: string;
     race: string;
@@ -51,73 +53,6 @@ export function NewAddForm() {
     setFiles(selectedFiles);
   }
 
-  // let uploadedPictures:string[];
-
-  const uploadedPictures = [];
-
-  // const [uploadedPictures, setUploadedPictures] = useState([]);
-  // useEffect(() => {
-  //   console.log("uploaded pictures: ", uploadedPictures);
-  // }, [uploadedPictures]);
-
-
-  const handleUpload = async (formData) => {
-    return new Promise((resolve, reject) => {
-      if (!files.length) {
-        alert("Please choose at least one file first!");
-        reject();
-        return;
-      }
-
-      const uploadTasks = files.map((file, index) => {
-        const storageRef = ref(storage, `/files/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        return new Promise((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const percent = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              );
-
-              setPercent(percent);
-            },
-            (err) => {
-              console.log(err);
-              reject(err);
-            },
-            () => {
-              getDownloadURL(uploadTask.snapshot.ref)
-                .then((url) => {
-                  uploadedPictures.push(url);
-                  // setUploadedPictures((prevUploadedPictures) => [
-                  //   ...prevUploadedPictures,
-                  //   url,
-                  // ]);
-                  console.log("uploaded pictures: ", uploadedPictures);
-                  resolve();
-                })
-                .catch((err) => {
-                  console.log(err);
-                  reject(err);
-                });
-            }
-          );
-        });
-      });
-      console.log(uploadedPictures)
-
-      Promise.all(uploadTasks)
-        .then(() => {
-          resolve(uploadedPictures);
-        })
-        .catch((err) => {
-          console.log(err);
-          reject(err);
-        });
-    });
-  };
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
@@ -129,7 +64,7 @@ export function NewAddForm() {
     try {
       setSubmitting(true);
 
-      const uploadedPictures = await handleUpload(formData);
+      const uploadedPictures = await handleUpload(files);
 
       const updatedFormData = { ...formData, pictures: uploadedPictures };
 
@@ -319,7 +254,6 @@ export function NewAddForm() {
           </div>
         </div>
       </form>
-      <button onClick={() => console.log(uploadedPictures)}> PICTURES</button>
       {/* {popped && <article className="popup">
               <h2>Add Has been added!</h2>
       </article>} */}

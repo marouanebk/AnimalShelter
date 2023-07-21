@@ -14,7 +14,6 @@ export function Dashboard() {
   const { userAds } = useUserAds(currentUser.id);
   const { userFavorites } = useUserFavorites(currentUser.id);
   const { userInfo } = useUseInfo(currentUser.id);
-  // const updateUserInfo = userInfo
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedUserInfo, setEditedUserInfo] = useState(userInfo);
   useEffect(() => {
