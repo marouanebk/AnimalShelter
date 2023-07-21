@@ -59,16 +59,21 @@ export function Details() {
   };
 
   const handleFavoriteClick = async () => {
-    try {
-      const res = await axios.post(`http://localhost:4000/favorites`, {
-        userId: currentUser.id,
-        adId: id,
-      });
-      if (res.status === 200 || res.status === 201) {
-        setIsFavorite(!isFavorite);
+    if (currentUser) {
+      try {
+        const res = await axios.post(`http://localhost:4000/favorites`, {
+          userId: currentUser.id,
+          adId: id,
+        });
+        if (res.status === 200 || res.status === 201) {
+          setIsFavorite(!isFavorite);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    }
+    if (currentUser == null) {
+      alert("You have to sign in first to like an add!");
     }
   };
 
@@ -213,7 +218,7 @@ export function Details() {
                         ) : (
                           editedAd?.type || ""
                         )}
-                      </td>{" "}
+                      </td>
                     </tr>
                     <tr className="bg-white border-b-2 border-b-main">
                       <th

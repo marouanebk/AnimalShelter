@@ -27,6 +27,10 @@ export function Card({
   const [favorite, setFavorite] = useState(isFavorite);
 
   const handleFavoriteClick = async () => {
+    if (currentUser == null) {
+      alert("You have to sign in first to like an add!");
+    }
+
     const userId = currentUser.id;
 
     if (userId != null) {
