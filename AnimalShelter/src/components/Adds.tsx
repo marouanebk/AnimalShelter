@@ -41,40 +41,49 @@ export function Adds({ filterState }: AddsProps) {
       const searchQuery = searchParams.get("location");
 
       let apiUrl = "http://localhost:4000/ads";
+
       if (currentUser != null) {
         apiUrl += `?userId=${currentUser.id}`;
       }
+  
       if (filterState) {
-        apiUrl += `&type=${filterState}`;
+        apiUrl += currentUser != null ? `&type=${filterState}` : `?type=${filterState}`;
       }
-
+  
       if (searchQuery) {
-        apiUrl += `&location=${searchQuery}`;
+        apiUrl += currentUser != null ? `&location=${searchQuery}` : `?location=${searchQuery}`;
       }
 
       console.log("apiUrl: " + apiUrl);
 
       const res = await axios.get(apiUrl);
+      console.log("res: " + res)
+
       const result = await res.data["ads"];
+      console.log(result);
       setAds(result);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // if (currentUser || filterState || searchQuery) {
+  //   apiUrl = "?"
+  // }
   useEffect(() => {
     getAds();
   }, [location.search]);
 
-  // if (ads.length == 0) {
-  //   return (
-  //     <div className="flex justify-center">
-  //       <div className="lds-heart">
-  //         <div></div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (ads.length == 0) {
+    return (
+      <div className="flex justify-center">
+        {/* <div className="lds-heart">
+          <div></div>
+        </div> */}
+        No ADS IN THIS CATEGORY
+      </div>
+    );
+  }
 
   return (
     <section className="mt-5 pb-10 min-h-screen">
