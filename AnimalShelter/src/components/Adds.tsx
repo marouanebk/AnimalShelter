@@ -57,19 +57,15 @@ export function Adds({ filterState }: AddsProps) {
       console.log("apiUrl: " + apiUrl);
 
       const res = await axios.get(apiUrl);
-      console.log("res: " + res)
 
       const result = await res.data["ads"];
-      console.log(result);
       setAds(result);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // if (currentUser || filterState || searchQuery) {
-  //   apiUrl = "?"
-  // }
+
   useEffect(() => {
     getAds();
   }, [location.search]);
@@ -77,9 +73,7 @@ export function Adds({ filterState }: AddsProps) {
   if (ads.length == 0) {
     return (
       <div className="flex justify-center">
-        {/* <div className="lds-heart">
-          <div></div>
-        </div> */}
+
         No ADS IN THIS CATEGORY
       </div>
     );

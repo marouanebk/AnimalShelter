@@ -99,7 +99,6 @@ exports.getAdsByType = async (req, res, next) => {
       // users = await User.find({ location: location }).select('_id');
        users = await User.find(userQuery).select('_id');
       
-      console.log(users);
     } else {
       users = await User.find().select('_id');
     }
@@ -118,7 +117,6 @@ exports.getAdsByType = async (req, res, next) => {
       res.status(200).json({ ads: [] }); // Return empty ads array
       return;
     }
-    console.log("123")
     
     if (Object.keys(adQuery).length > 0) {
       ads = await Ad.find(adQuery)
@@ -135,7 +133,6 @@ exports.getAdsByType = async (req, res, next) => {
           select: 'location',
         });
     }
-    console.log("138")
 
 
     // Fetch favorites for the user if authenticated
@@ -148,7 +145,6 @@ exports.getAdsByType = async (req, res, next) => {
         return acc;
       }, {});
     }
-    console.log("151")
 
 
     // Add isFavorite field to each ad
@@ -156,14 +152,12 @@ exports.getAdsByType = async (req, res, next) => {
       ...ad.toObject(),
       isFavorite: favorites[ad._id.toString()] || false,
     }));
-    console.log("159")
 
 
     res.status(200).json({ ads: adsWithFavorites });
   } catch (error) {
-    console.log("164")
 
-    next(error); // Pass the error to the error handling middleware
+    next(error); 
   }
 };
 
