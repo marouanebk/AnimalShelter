@@ -45,13 +45,17 @@ export function Adds({ filterState }: AddsProps) {
       if (currentUser != null) {
         apiUrl += `?userId=${currentUser.id}`;
       }
-  
+
       if (filterState) {
-        apiUrl += currentUser != null ? `&type=${filterState}` : `?type=${filterState}`;
+        apiUrl +=
+          currentUser != null ? `&type=${filterState}` : `?type=${filterState}`;
       }
-  
+
       if (searchQuery) {
-        apiUrl += currentUser != null ? `&location=${searchQuery}` : `?location=${searchQuery}`;
+        apiUrl +=
+          currentUser != null
+            ? `&location=${searchQuery}`
+            : `?location=${searchQuery}`;
       }
 
       console.log("apiUrl: " + apiUrl);
@@ -65,17 +69,21 @@ export function Adds({ filterState }: AddsProps) {
     }
   };
 
-
   useEffect(() => {
     getAds();
   }, [location.search]);
 
   if (ads.length == 0) {
     return (
-      <div className="flex justify-center">
-
-        No ADS IN THIS CATEGORY
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 80, scale: 1.5 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        className="flex justify-center"
+      >
+        <div className="lds-heart">
+          <div></div>
+        </div>
+      </motion.div>
     );
   }
 
