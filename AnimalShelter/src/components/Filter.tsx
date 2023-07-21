@@ -47,23 +47,33 @@ export function Filter({
     }
   }
 
+  const onSub = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <main className="mb-10">
-      <div className="flex flex-col md:flex-row justify-start items-start md:items-center  gap-6 mb-4">
-        <input
-          className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish shadow-strong"
-          type="text"
-          placeholder="Search By Location"
-          value={searchQuery}
-          onChange={handleSearch}
-        />
-        <motion.button
-          whileTap={{ scale: 0.9, x: 4, y: 4 }}
-          className="border-2 border-black bg-blueish font-bold py-1 px-4 shadow-strong"
-          onClick={handleSearchClick}
+      <div>
+        <form
+          onSubmit={onSub}
+          action="#"
+          className="flex flex-col md:flex-row justify-start items-start md:items-center  gap-6 mb-4"
         >
-          Search
-        </motion.button>
+          <input
+            className="block px-5 py-2 text-md text-black placeholder:text-sm focus:outline-none font-bold caret-grayish shadow-strong"
+            type="text"
+            placeholder="Search By Location"
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+          <motion.button
+            whileTap={{ scale: 0.9, x: 4, y: 4 }}
+            className="border-2 border-black bg-blueish font-bold py-1 px-4 shadow-strong"
+            onClick={handleSearchClick}
+          >
+            Search
+          </motion.button>
+        </form>
       </div>
       <div className="my-6">
         <div className="my-5">
