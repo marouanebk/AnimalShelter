@@ -7,12 +7,10 @@ import { animate, motion, useScroll } from "framer-motion";
 
 import { handleUpload } from "../utils/uploadUtils";
 
-
 export function NewAddForm() {
   const { scrollYProgress } = useScroll();
   const { currentUser }: any = useContext(AuthContext);
   const navigate = useNavigate();
-
 
   const [formData, setFormData] = useState<{
     owner: string;
@@ -53,7 +51,6 @@ export function NewAddForm() {
     setFiles(selectedFiles);
   }
 
-
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
 
@@ -74,7 +71,7 @@ export function NewAddForm() {
       );
       if (result.status == 200) {
         alert("Add has been published");
-        // navigate("/user");
+        navigate("/user");
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -82,7 +79,6 @@ export function NewAddForm() {
       setSubmitting(false);
     }
   };
-
 
   return (
     <main>
@@ -93,9 +89,7 @@ export function NewAddForm() {
       <small className="font-bold text-sm ">
         Select three pictures at the time
       </small>
-      <p className="my-4 font-semibold">
-        {/* {percent} % done - {uploadedPictures.length}/{files.length} uploaded */}
-      </p>
+      <p className="my-4 font-semibold"></p>
       <motion.div
         style={{ width: `${percent}%` }}
         className="h-4 bg-red-200 duration-150 ease-in-out hidden md:block"
