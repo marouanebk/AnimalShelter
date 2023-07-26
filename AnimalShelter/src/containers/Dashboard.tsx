@@ -1,5 +1,5 @@
 import { Card } from "../components/Card";
-import { AiOutlinePlusCircle, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -26,7 +26,7 @@ export function Dashboard() {
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    setEditedUserInfo((prev) => ({
+    setEditedUserInfo((prev: any) => ({
       ...prev,
       [name]: value,
     }));

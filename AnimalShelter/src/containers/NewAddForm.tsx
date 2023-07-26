@@ -1,14 +1,12 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { animate, motion, useScroll } from "framer-motion";
 
 import { handleUpload } from "../utils/uploadUtils";
 
 export function NewAddForm() {
-  const { scrollYProgress } = useScroll();
   const { currentUser }: any = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -44,11 +42,10 @@ export function NewAddForm() {
     }));
   };
   const [files, setFiles] = useState([]);
-  const [percent, setPercent] = useState(0);
 
   function handleChange(event: any) {
     const selectedFiles = Array.from(event.target.files);
-    setFiles(selectedFiles);
+    setFiles(selectedFiles as any);
   }
 
   const handleFormSubmit = async (event: any) => {
@@ -73,7 +70,7 @@ export function NewAddForm() {
         alert("Add has been published");
         navigate("/user");
       }
-    } catch (error) {
+    } catch (error: any) {
       alert(error.response.data.message);
     } finally {
       setSubmitting(false);
@@ -90,10 +87,6 @@ export function NewAddForm() {
         Select three pictures at the time
       </small>
       <p className="my-4 font-semibold"></p>
-      <motion.div
-        style={{ width: `${percent}%` }}
-        className="h-4 bg-red-200 duration-150 ease-in-out hidden md:block"
-      ></motion.div>
       <div className="flex gap-5 flex-col md:flex-row items-center justify-start ">
         {files.length === 0 ? (
           <>
@@ -226,10 +219,6 @@ export function NewAddForm() {
                 />
                 <label htmlFor="vaccinated">Vaccinated</label>
               </div>
-              <motion.div
-                style={{ width: `${percent}%` }}
-                className="h-4 bg-red-200 duration-150 ease-in-out md:hidden block"
-              ></motion.div>
             </div>
             <div className="mt-auto md:text-right md:ms-auto">
               <button

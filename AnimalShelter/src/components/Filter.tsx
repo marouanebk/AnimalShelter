@@ -47,7 +47,7 @@ export function Filter({
     }
   }
 
-  const onSub = (e) => {
+  const onSub = (e: any) => {
     e.preventDefault();
   };
 
