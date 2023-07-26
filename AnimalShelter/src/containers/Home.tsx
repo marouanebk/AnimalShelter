@@ -4,12 +4,16 @@ import { Filter } from "../components/Filter";
 
 export function Home() {
   const [filterState, setFilterState] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [, setSearchQuery] = useState("");
 
   return (
     <>
-      <Filter setFilterState={setFilterState} filterState={filterState} setSearchQuery={setSearchQuery} />
-      <Adds filterState={filterState} searchQuery={searchQuery} />
+      <Filter
+        setFilterState={setFilterState}
+        filterState={filterState}
+        setSearchQuery={setSearchQuery}
+      />
+      <Adds />
     </>
   );
 }

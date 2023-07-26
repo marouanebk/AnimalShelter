@@ -73,15 +73,12 @@ export function Signup() {
     if (step == 1) {
       try {
         console.log("Step 1");
-        const response = await axios.post(
-          import.meta.env.VITE_REGISTER_URL,
-          {
-            first_name,
-            last_name,
-            email,
-            password,
-          }
-        );
+        const response = await axios.post(import.meta.env.VITE_REGISTER_URL, {
+          first_name,
+          last_name,
+          email,
+          password,
+        });
         console.log(response.status);
         if (response.status === 200) {
           setStep(2);
@@ -91,7 +88,7 @@ export function Signup() {
           setWrongAuth(true);
           setAuthMessage(response.data.message);
         }
-      } catch (error) {
+      } catch (error: any) {
         setWrongAuth(true);
         setAuthMessage(error.response.data.message);
       }
@@ -119,7 +116,7 @@ export function Signup() {
           setWrongAuth(true);
           setAuthMessage(response.data.message);
         }
-      } catch (error) {
+      } catch (error: any) {
         setWrongAuth(true);
         setAuthMessage(error.response.data.message);
       }
