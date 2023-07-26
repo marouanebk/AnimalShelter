@@ -45,7 +45,7 @@ export function Details() {
 
   const getAd = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/ads/${id}`);
+      const res = await axios.get(import.meta.env.VITE_GET_ADS_API_URL+`/${id}`);
       const result = await res.data;
       console.log(result.ad.owner.id);
       if (currentUser && currentUser.id == result.ad.owner.id) {
@@ -61,7 +61,7 @@ export function Details() {
   const handleFavoriteClick = async () => {
     if (currentUser) {
       try {
-        const res = await axios.post(`http://localhost:4000/favorites`, {
+        const res = await axios.post(import.meta.env.VITE_POST_FAVORITE_API_URL, {
           userId: currentUser.id,
           adId: id,
         });
@@ -80,7 +80,7 @@ export function Details() {
   const handleDelete = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:4000/deleteAd/${details?._id}`
+        import.meta.env.VITE_DELETE_ADS_API_URL+details?._id
       );
       if (res.status === 200) {
         navigate(`/user`);
@@ -89,14 +89,10 @@ export function Details() {
       console.log(error);
     }
   };
-  // const handleEditClick = () => {
-  //   setEditedAd({ ...details });
-  //   setShowEditForm(true);
-  // };
+
 
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("ediiting");
     try {
       const res = await axios.put(
         import.meta.env.VITE_EDIT_ADS_API_URL+id,
