@@ -4,8 +4,8 @@ import "react-slideshow-image/dist/styles.css";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-import { anticipate, motion } from "framer-motion";
-import nopic from "../assets/nopic.jpg"
+import { motion } from "framer-motion";
+import nopic from "../assets/nopic.jpg";
 
 type CardProps = {
   id: number;
@@ -36,10 +36,13 @@ export function Card({
 
     if (userId != null) {
       try {
-        const res = await axios.post(import.meta.env.VITE_POST_FAVORITE_API_URL, {
-          userId,
-          adId: id,
-        });
+        const res = await axios.post(
+          import.meta.env.VITE_POST_FAVORITE_API_URL,
+          {
+            userId,
+            adId: id,
+          }
+        );
         if (res.status === 200 || res.status === 201) {
           setFavorite(!favorite);
         }

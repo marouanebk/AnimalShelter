@@ -1,17 +1,11 @@
 import { Card } from "./Card";
-import { addsData } from "../data/AddsData";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 
-type AddsProps = {
-  filterState: string;
-  searchQuery: string;
-};
-
-export function Adds({ filterState }: AddsProps) {
+export function Adds() {
   const { currentUser }: any = useContext(AuthContext);
 
   type Ad = {
@@ -28,10 +22,6 @@ export function Adds({ filterState }: AddsProps) {
 
   const [ads, setAds] = useState<Ad[]>([]);
   const location = useLocation();
-
-  const filteredData = addsData.filter((add) => {
-    return add.type.includes(filterState);
-  });
 
   const getAds = async () => {
     try {
