@@ -66,7 +66,7 @@ export function NewAddForm() {
       const updatedFormData = { ...formData, pictures: uploadedPictures };
 
       const result = await axios.post(
-        "http://localhost:4000/createAd",
+        import.meta.env.VITE_CREATE_AD_API_URL,
         updatedFormData
       );
       if (result.status == 200) {
