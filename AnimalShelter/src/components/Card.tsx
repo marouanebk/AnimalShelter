@@ -36,7 +36,7 @@ export function Card({
 
     if (userId != null) {
       try {
-        const res = await axios.post("http://localhost:4000/favorites", {
+        const res = await axios.post(import.meta.env.VITE_POST_FAVORITE_API_URL, {
           userId,
           adId: id,
         });

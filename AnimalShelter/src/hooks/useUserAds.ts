@@ -21,7 +21,7 @@ const useUserAds = (userId: string) => {
 
   const fetchUserAds = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/ads_by_user/${userId}`);
+      const response = await axios.get(import.meta.env.VITE_GET_ADS_BY_USER_API_URL+userId);
 
       if (response && response.status === 200 && response.data) {
         setUserAds(response.data["ads"]);

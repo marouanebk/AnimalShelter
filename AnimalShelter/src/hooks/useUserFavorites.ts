@@ -18,8 +18,7 @@ const useUserFavorites = (userId: string) => {
 
   const fetchFavorites = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/favorites/${userId}`);
-      console.log("favorites", response.data.favorites);
+      const response = await axios.get(import.meta.env.VITE_GET_FAVORITES_BY_USER_API_URL+userId);
     
       if (response && response.status === 200 && response.data) {
         const adIds = response.data.favorites.map((favorite : any) => favorite.adId);

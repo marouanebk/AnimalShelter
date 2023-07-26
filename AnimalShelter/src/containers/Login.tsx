@@ -30,7 +30,7 @@ export function Login() {
     const password = passwordRef.current?.value;
 
     try {
-      const response = await axios.post("http://localhost:4000/users/login", {
+      const response = await axios.post(import.meta.env.VITE_LOGIN_URL, {
         email,
         password,
       });

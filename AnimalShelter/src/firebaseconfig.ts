@@ -2,14 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
  
 const app = initializeApp ({
-  apiKey: "AIzaSyAXyl2is2ImVU2olv3pjq4n2_g6WpqUn-8",
-  authDomain: "animalshelter-7d8de.firebaseapp.com",
-  projectId: "animalshelter-7d8de",
-  storageBucket: "animalshelter-7d8de.appspot.com",
-  messagingSenderId: "142623635924",
-  appId: "1:142623635924:web:690fd2bf8c13734fa3fe41"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 });
-
 // Firebase storage reference
 const storage = getStorage(app);
 export default storage;

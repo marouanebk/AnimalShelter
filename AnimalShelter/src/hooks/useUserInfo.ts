@@ -15,7 +15,7 @@ const useUserInfo = (userId: string) => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/users/${userId}`);
+      const res = await axios.get(import.meta.env.VITE_GET_USER_INFO_URL+userId);
       const result = await res.data;
       setUserInfo(result);
       console.log(result, "RESULT");

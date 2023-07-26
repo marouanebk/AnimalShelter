@@ -40,7 +40,8 @@ export function Adds({ filterState }: AddsProps) {
       const filterState = searchParams.get("type");
       const searchQuery = searchParams.get("location");
 
-      let apiUrl = "http://localhost:4000/ads";
+      let apiUrl = import.meta.env.VITE_GET_ADS_API_URL;
+      console.log(apiUrl);
 
       if (currentUser != null) {
         apiUrl += `?userId=${currentUser.id}`;
@@ -57,8 +58,6 @@ export function Adds({ filterState }: AddsProps) {
             ? `&location=${searchQuery}`
             : `?location=${searchQuery}`;
       }
-
-      console.log("apiUrl: " + apiUrl);
 
       const res = await axios.get(apiUrl);
 

@@ -74,7 +74,7 @@ export function Signup() {
       try {
         console.log("Step 1");
         const response = await axios.post(
-          "http://localhost:4000/users/register",
+          import.meta.env.VITE_REGISTER_URL,
           {
             first_name,
             last_name,
@@ -99,7 +99,7 @@ export function Signup() {
       try {
         console.log(email);
         const response = await axios.post(
-          "http://localhost:4000/users/register_infos",
+          import.meta.env.VITE_REGISTER_INFO_URL,
           {
             email,
             location,

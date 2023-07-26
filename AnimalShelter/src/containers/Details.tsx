@@ -99,11 +99,10 @@ export function Details() {
     console.log("ediiting");
     try {
       const res = await axios.put(
-        `http://localhost:4000/editAd/${id}`,
+        import.meta.env.VITE_EDIT_ADS_API_URL+id,
         editedAd
       );
       if (res.status === 200) {
-        console.log("truueee");
 
         alert("Ad updated successfully");
         setIsEditMode(false);

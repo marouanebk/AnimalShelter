@@ -35,7 +35,7 @@ export function Dashboard() {
   const handleSubmit = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:4000/users/${currentUser.id}`,
+        import.meta.env.VITE_GET_USER_INFO_URL + currentUser.id,
         editedUserInfo
       );
       if (res.status === 200) {
