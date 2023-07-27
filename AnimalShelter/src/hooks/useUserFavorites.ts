@@ -18,11 +18,12 @@ const useUserFavorites = (userId: string) => {
 
   const fetchFavorites = async () => {
     try {
+      console.log(import.meta.env.VITE_GET_FAVORITES_BY_USER_API_URL+userId);
       const response = await axios.get(import.meta.env.VITE_GET_FAVORITES_BY_USER_API_URL+userId);
-    
+      console.log(response.data.favorites)
       if (response && response.status === 200 && response.data) {
-        const adIds = response.data.favorites.map((favorite : any) => favorite.adId);
-        setuserFavorites(adIds);
+        // const adIds = response.data.favorites.map((favorite : any) => favorite.adId);
+        setuserFavorites(response.data.favorites);
       }
     } catch (error) {
       console.error("Error fetching user ads:", error);

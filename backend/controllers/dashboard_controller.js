@@ -1,5 +1,8 @@
 const express = require('express');
 const Favorite = require('../models/favorites');
+const { ObjectId } = require('mongoose').Types;
+const Ad = require('../models/adModel');
+
 
 // Add an ad to user's favorites
 exports.addToFavorites = async (req, res, next) => {
@@ -28,6 +31,8 @@ exports.getFavoritesByUser = async (req, res, next) => {
   const { userId } = req.params;
 
   try {
+    console.log("in favorites")
+    console.log(userId)
     // Verify that userId is a valid ObjectId before querying the database
     if (!ObjectId.isValid(userId)) {
       return res.status(400).json({ message: 'Invalid userId format' });
@@ -49,7 +54,8 @@ exports.getFavoritesByUser = async (req, res, next) => {
       validAdIds.includes(favorite.adId)
     );
 
-    res.status(200).json({ favorites: validFavorites, validAds });
+    // res.status(200).json({ favorites: validFavorites, validAds });
+    res.status(200).json({ favorites: validAds, });
   } catch (error) {
     next(error);
   }

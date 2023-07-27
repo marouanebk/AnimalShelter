@@ -8,6 +8,7 @@ const Favorite = require('../models/favorites');
 
 exports.createAd = async (req, res, next) => {
   try {
+    console.log("in creating ad");
     console.log(req.body);
     const ad = new Ad(req.body);
     await ad.validate();
